@@ -2,12 +2,12 @@
 service: zdrofit_booker
 
 # Name of the container image.
-image: your-user/zdrofit_booker
+image: jan-kaczorowski/zdrofit_booker
 
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    - 52.28.8.239
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -19,17 +19,21 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: app.example.com
+  host: zdrofitbooker.redsphinx.pl
+  app_port: 80
+  healthcheck:
+    path: /up
+    interval: 10
+    timeout: 10
 
-# Credentials for your image host.
 registry:
+  server: 546620766310.dkr.ecr.eu-west-1.amazonaws.com
   # Specify the registry server, if you're not using Docker Hub
   # server: registry.digitalocean.com / ghcr.io / ...
-  username: your-user
+  username: AWS
 
-  # Always use an access token rather than real password when possible.
-  password:
-    - KAMAL_REGISTRY_PASSWORD
+  # Always use an access token rather than real password (pulled from .kamal/secrets).
+  password: <%= %x[AWS_PROFILE=privr aws ecr get-login-password --region eu-west-1].strip %>
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
@@ -39,6 +43,8 @@ env:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
+    PORT: 80
+    HOST: zdrofitbooker.redsphinx.pl
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -77,19 +83,10 @@ asset_path: /rails/public/assets
 builder:
   arch: amd64
 
-  # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
-  # remote: ssh://docker@docker-builder-server
-  #
-  # # Pass arguments and secrets to the Docker build process
-  # args:
-  #   RUBY_VERSION: ruby-3.4.1
-  # secrets:
-  #   - GITHUB_TOKEN
-  #   - RAILS_MASTER_KEY
-
 # Use a different ssh user than root
-# ssh:
-#   user: app
+ssh:
+  user: ubuntu
+  keys: [ "~/.ssh/my-aws.pem" ]
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:

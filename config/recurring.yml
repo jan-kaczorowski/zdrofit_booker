@@ -8,3 +8,21 @@
 #     command: "SoftDeletedRecord.due.delete_all"
 #     priority: 2
 #     schedule: at 5am every day
+
+development:
+  booking_checker_job:
+    class: BookingCheckerJob
+    queue: default
+    schedule: "5 0 * * *" # At 00:05 every day
+
+test:
+  booking_checker_job:
+    class: BookingCheckerJob
+    queue: default
+    schedule: "5 0 * * *"
+
+production:
+  booking_checker_job:
+    class: BookingCheckerJob
+    queue: default
+    schedule: "5 0 * * *"

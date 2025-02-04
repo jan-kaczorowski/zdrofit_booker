@@ -10,11 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_04_201349) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_07_221640) do
+  create_table "zdrofit_class_bookings", force: :cascade do |t|
+    t.integer "class_id"
+    t.integer "club_id"
+    t.datetime "next_occurrence"
+    t.integer "zdrofit_user_id", null: false
+    t.string "status"
+    t.string "mode"
+    t.string "class_name"
+    t.string "trainer_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["zdrofit_user_id"], name: "index_zdrofit_class_bookings_on_zdrofit_user_id"
+  end
+
   create_table "zdrofit_users", force: :cascade do |t|
     t.string "email"
     t.string "pass"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "last_city_id"
+    t.integer "last_club_id"
   end
+
+  add_foreign_key "zdrofit_class_bookings", "zdrofit_users"
 end
