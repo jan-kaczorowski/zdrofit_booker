@@ -1,14 +1,3 @@
-# t.integer "class_id"
-# t.integer "club_id"
-# t.datetime "next_occurrence"
-# t.integer "zdrofit_user_id", null: false
-# t.string "status"
-# t.string "mode"
-# t.string "class_name"
-# t.string "trainer_name"
-# t.datetime "created_at", null: false
-# t.datetime "updated_at", null: false
-
 class ClassBooker
   def initialize(booking)
     @booking = booking
