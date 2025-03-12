@@ -3,7 +3,7 @@ class ZdrofitClassBooking < ApplicationRecord
 
   def booking_time
     next_occurrence_utc = ActiveSupport::TimeZone["Europe/Warsaw"]
-                            .parse(next_occurrence)
+                            .parse(next_occurrence.iso8601)
                             .in_time_zone("UTC")
     next_occurrence_utc - 2.days + 1.minute
   end
