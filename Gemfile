@@ -74,3 +74,5 @@ group :test do
 end
 
 gem "levenshtein", "~> 0.2.2"
+
+gem "solid_queue_dashboard", "~> 0.2.0"

@@ -31,5 +31,8 @@ module ZdrofitBooker
 
     # Add the builds directory to the asset paths
     config.assets.paths << Rails.root.join("app/assets/builds")
+    
+    # For engine assets like solid_queue_dashboard
+    config.assets.precompile += %w( solid_queue_dashboard/application.css solid_queue_dashboard/application.js )
   end
 end
