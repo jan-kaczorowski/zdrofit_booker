@@ -154,7 +154,14 @@
             
             <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
               <p class="text-gray-600 text-sm mt-8">
-                Select a club from the dropdown to view available classes and make reservations.
+                <% if @clubs.blank? || !@clubs.respond_to?(:each) %>
+                  <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Warning:</strong>
+                    <span class="block sm:inline">Unable to load clubs. Please try refreshing the page.</span>
+                  </div>
+                <% elsif !params[:club_id].present? && !@user.last_club_id.present? %>
+                  Select a club from the dropdown to view available classes and make reservations.
+                <% end %>
               </p>
             </div>
           </div>
@@ -217,9 +224,12 @@
       button.textContent = originalText;
       alert(`Failed to book class: ${error.message}`);
     });
-  }
+  console.log('foo');
+}
 
-  document.addEventListener('DOMContentLoaded', function() {
+var dclhandler = false;
+const start = () => {
+    if (dclhandler) { document.removeEventListener('DOMContentLoaded', start); }
     // Add renderClassesTable function
     function renderClassesTable(data) {
       const tableBody = document.getElementById('classes-table-body');
@@ -314,6 +324,8 @@
       }
     }
 
+    console.log('clubSelect')
+
     // Add loadWeeklyClasses function
     function loadWeeklyClasses(clubId) {
       const weeklyClassesContainer = document.getElementById('weekly-classes-container');
@@ -322,7 +334,10 @@
       const tableBody = document.getElementById('classes-table-body');
       tableBody.innerHTML = `
         <tr>
-          <td colspan="4" class="text-center py-4">Loading classes...</td>
+          <td colspan="7" class="text-center py-8">
+            <div style="animation: spin 1s linear infinite;" class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-indigo-600"></div>
+            <span class="sr-only">Loading...</span>
+          </td>
         </tr>
       `;
 
@@ -351,7 +366,8 @@
     // Initialize dropdowns if there's a last selected city
     const lastCity = <%= raw(@user.last_city_id.to_json) %>;
     const lastClubId = <%= raw(@user.last_club_id.to_json) %>;
-    
+    console.log('lastCity', lastCity)
+    console.log('lastClubId', lastClubId)
     if (lastCity) {
       // Show clubs container
       const clubsContainer = document.getElementById('clubs-container');
@@ -363,7 +379,8 @@
         const showOption = item.dataset.city === lastCity;
         item.closest('li').style.display = showOption ? '' : 'none';
       });
-
+    }
+    if (lastClubId) {
       // If there's a last selected club, set it up
       if (lastClubId) {
         const selectedClubItem = document.querySelector(`#clubs-container .dropdown-item[data-value="${lastClubId}"]`);
@@ -486,7 +503,18 @@
 
       loadWeeklyClasses(clubId);
     });
-  });
+
+    if (lastClubId) {  // If a club is pre-selected (last_club_id)
+      loadWeeklyClasses(lastClubId);
+    }
+  };
+
+if (document.readyState !== 'loading') {
+    start();
+} else {
+    document.addEventListener('DOMContentLoaded', start);
+    dclhandler = true;
+}
 <% end %> 
 
 
