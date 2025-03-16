@@ -26,7 +26,7 @@ class HomeController < ApplicationController
     @clubs = @client.list_available_clubs
   rescue => e
     flash[:error] = "Failed to fetch clubs: #{e.message}"
-    @clubs = []
+    @clubs = [] # Ensure @clubs is always an array
   end
 
   def weekly_classes
@@ -36,10 +36,20 @@ class HomeController < ApplicationController
       club_id: params[:club_id],
       date: 10.days.from_now.strftime("%F")
     )
-    # binding.break
-    render json: @classes
+    
+    # If it's a Turbo Frame request, render the partial
+    if turbo_frame_request?
+      render partial: "weekly_classes", locals: { classes: @classes }
+    else
+      # For API requests, return JSON
+      render json: @classes
+    end
   rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
+    if turbo_frame_request?
+      render html: "<div class='p-4 bg-red-100 text-red-700 rounded'>Error: #{e.message}</div>".html_safe
+    else
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
   end
 
   def book

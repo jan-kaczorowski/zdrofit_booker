@@ -1,0 +1,35 @@
+<tr class="hover:bg-gray-50">
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="flex items-center">
+      <div class="ml-4">
+        <div class="text-sm font-medium text-gray-900"><%= class_data["Name"] %></div>
+        <div class="text-sm text-gray-500"><%= class_data["TrainerName"] %></div>
+      </div>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-900">
+      <%= DateTime.parse(class_data["StartTime"]).strftime("%a, %b %d") %>
+    </div>
+    <div class="text-sm text-gray-500">
+      <%= DateTime.parse(class_data["StartTime"]).strftime("%H:%M") %> - 
+      <%= DateTime.parse(class_data["EndTime"]).strftime("%H:%M") %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    <%= class_data.dig("BookingIndicator", "Available") %> / <%= class_data.dig("BookingIndicator", "Capacity") %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+    <button 
+      data-action="weekly-classes#bookClass"
+      data-class-id="<%= class_data["Id"] %>"
+      data-club-id="<%= params[:club_id] %>"
+      data-next-occurrence="<%= class_data["StartTime"] %>"
+      data-class-name="<%= class_data["Name"] %>"
+      data-trainer-name="<%= class_data["TrainerName"] %>"
+      class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+      Book
+    </button>
+  </td>
+</tr> 

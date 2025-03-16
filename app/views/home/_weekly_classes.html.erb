@@ -2,27 +2,23 @@
   <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-50">
       <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Availability</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-
-      <% @classes['CalendarData'].each do |zone| %>
-        <% zone_name =  zone['ZoneName'] %>
-        <% zone['ClassesPerHour'].each do |cph| %>
-          <% hour = cph['Hour'] %>
-          <% cph['ClassesPerDay'].flatten.each do |obj| %>
-          <tr>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-            <%= obj['Id'] %>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-            <%= obj['Name'] %>
+      <% if @classes.present? && @classes.is_a?(Array) && @classes.any? %>
+        <% @classes.each do |class_data| %>
+          <%= render partial: "class_row", locals: { class_data: class_data } %>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+            No classes available for the selected club.
           </td>
         </tr>
-          <% end %>
-        <% end %>
       <% end %>
     </tbody>
   </table>
