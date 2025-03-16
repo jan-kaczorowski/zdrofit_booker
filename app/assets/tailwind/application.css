@@ -16,3 +16,22 @@
     -webkit-transform: rotate(360deg);
   }
 }
+
+.dropdown-menu {
+  @apply absolute left-0 right-0 z-10 mt-2 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5;
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  @apply block w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 cursor-pointer;
+}
+
+/* Add hover effect for dropdown items */
+.dropdown-item:hover {
+  @apply bg-indigo-50 text-indigo-700;
+  transition: background-color 0.2s ease;
+}

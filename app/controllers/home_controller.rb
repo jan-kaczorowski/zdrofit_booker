@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!, except: %i[index login]
+  before_action :fetch_user, except: %i[index login]
 
   def index
   end
@@ -21,7 +22,6 @@ class HomeController < ApplicationController
   end
 
   def dashboard
-    @user = ZdrofitUser.find(session[:user_id])
     @client = @user.zdrofit_api_client
     @clubs = @client.list_available_clubs
   rescue => e
@@ -30,13 +30,19 @@ class HomeController < ApplicationController
   end
 
   def weekly_classes
-    @user = ZdrofitUser.find(session[:user_id])
+    @bookings = ZdrofitClassBooking.where(zdrofit_user: @user, club_id: params[:club_id])
+                                   .select(:id, :class_id, :next_occurrence)
     client = @user.zdrofit_api_client
     @classes = client.list_weekly_classes(
       club_id: params[:club_id],
       date: 10.days.from_now.strftime("%F")
     )
-    
+
+    @classes.each do |cl| 
+      match = @bookings.find { |b| b.class_id == cl['Id'] && b.next_occurrence == DateTime.parse(cl['StartTime']) }
+      cl['BookingId'] = match&.id
+    end
+    # binding.break
     # If it's a Turbo Frame request, render the partial
     if turbo_frame_request?
       render partial: "weekly_classes", locals: { classes: @classes }
@@ -53,8 +59,6 @@ class HomeController < ApplicationController
   end
 
   def book
-    @user = ZdrofitUser.find(session[:user_id])
-
     begin
       # Create booking record with next_occurrence
       ZdrofitClassBooking.create!(
@@ -89,5 +93,11 @@ class HomeController < ApplicationController
     return unless session[:user_id].blank?
 
     redirect_to index_path and return
+  end
+
+  def fetch_user
+    return if session[:user_id].blank?
+
+    @user = ZdrofitUser.find(session[:user_id])
   end
 end
