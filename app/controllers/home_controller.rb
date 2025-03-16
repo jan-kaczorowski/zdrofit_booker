@@ -34,8 +34,9 @@ class HomeController < ApplicationController
     client = @user.zdrofit_api_client
     @classes = client.list_weekly_classes(
       club_id: params[:club_id],
-      date: 5.days.from_now.strftime("%F")
+      date: 10.days.from_now.strftime("%F")
     )
+    # binding.break
     render json: @classes
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
