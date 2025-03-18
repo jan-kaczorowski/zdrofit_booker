@@ -74,25 +74,12 @@
                 <%# Cities dropdown %>
                 <div class="w-full">
                   <div class="dropdown relative">
-                    <button id="city-dropdown" type="button" 
-                            data-dashboard-target="cityButton"
-                            class="w-full inline-flex justify-between items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500" 
-                            aria-haspopup="true" 
-                            aria-expanded="false">
-                      <span class="selected-city"><%= @user.last_city_id.presence || "Choose a city..." %></span>
-                      <svg class="h-5 w-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
+                    <input type="text" id="city-dropdown" placeholder="Search cities..." class="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" data-dashboard-target="cityButton">
                     <div class="dropdown-menu hidden" role="menu" data-dashboard-target="cityMenu">
                       <ul class="py-1">
-                        <% @clubs.map { |club| club.dig('City', 'Name') }.uniq.sort.each do |city| %>
+                        <% @clubs.map { |club| club.dig('City', 'Name') }.uniq.sort.map(&:strip).each do |city| %>
                           <li>
-                            <div class="dropdown-item" 
-                                 data-value="<%= city %>" 
-                                 <%= 'data-selected="true"' if city == @user.last_city_id %>>
-                              <%= city %>
-                            </div>
+                            <div class="dropdown-item" data-value="<%= city %>"><%= city %></div>
                           </li>
                         <% end %>
                       </ul>
@@ -103,33 +90,12 @@
                 <%# Clubs dropdown %>
                 <div class="w-full <%= 'hidden' unless @user.last_city_id.present? %>" id="clubs-container" data-dashboard-target="clubsContainer">
                   <div class="dropdown relative">
-                    <button id="club-dropdown" type="button" 
-                            data-dashboard-target="clubButton"
-                            class="w-full inline-flex justify-between items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500" 
-                            aria-haspopup="true" 
-                            aria-expanded="false">
-                      <span class="selected-club">
-                        <% if @user.last_club_id %>
-                          <% selected_club = @clubs.find { |club| club['Id'] == @user.last_club_id } %>
-                          <%= selected_club ? "#{selected_club['Name']} - #{selected_club['Address']}" : "Select a club..." %>
-                        <% else %>
-                          Select a club...
-                        <% end %>
-                      </span>
-                      <svg class="h-5 w-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
+                    <input type="text" id="club-dropdown" placeholder="Search clubs..." class="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" data-dashboard-target="clubButton">
                     <div class="dropdown-menu hidden" role="menu" data-dashboard-target="clubMenu">
                       <ul class="py-1">
                         <% @clubs.each do |club| %>
                           <li>
-                            <div class="dropdown-item" 
-                                 data-value="<%= club['Id'] %>" 
-                                 data-city="<%= club.dig('City', 'Name') %>"
-                                 <%= 'data-selected="true"' if club['Id'] == @user.last_club_id %>>
-                              <%= club['Name'] %> - <%= club['Address'] %>
-                            </div>
+                            <div class="dropdown-item" data-value="<%= club['Id'] %>" data-city="<%= club.dig('City', 'Name').strip %>"><%= club['Name'].strip %> - <%= club['Address'].strip %></div>
                           </li>
                         <% end %>
                       </ul>
@@ -197,4 +163,5 @@
   .dropdown-item:hover {
     background-color: #f3f4f6;
   }
-</style> 
+</style>
+

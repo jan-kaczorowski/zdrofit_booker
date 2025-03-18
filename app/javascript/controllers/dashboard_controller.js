@@ -8,9 +8,14 @@ export default class extends Controller {
     console.log("Dashboard controller connected - v2")
     this.setupDropdowns()
     this.setupSearch()
-    console.log('chrum', this.cityButtonTarget.querySelector('span').textContent.trim())
-    this.handleCitySelection(this.cityButtonTarget.querySelector('span').textContent.trim())
-    
+
+    // Ensure the city selection is handled correctly
+    const cityValue = this.cityButtonTarget.value.trim()
+    if (cityValue) {
+      console.log('chrum', cityValue)
+      this.handleCitySelection(cityValue)
+    }
+
     // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.dropdown')) {
@@ -27,30 +32,63 @@ export default class extends Controller {
       console.log('turbo:after-stream-render event triggered', e)
       this.setupSearch()
     })
-    
-    
   }
   
   setupDropdowns() {
     console.log("Setting up dropdowns")
-    // Set up city dropdown
-    this.cityButtonTarget.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      
-      const isExpanded = this.cityButtonTarget.getAttribute('aria-expanded') === 'true'
-      
-      if (isExpanded) {
-        this.closeAllDropdowns()
-      } else {
-        this.closeAllDropdowns()
-        this.cityMenuTarget.classList.remove('hidden')
-        this.cityMenuTarget.classList.add('show')
-        this.cityButtonTarget.setAttribute('aria-expanded', 'true')
-        this.cityButtonTarget.querySelector('svg').style.transform = 'rotate(180deg)'
-      }
-    })
     
+    // Set up city typeahead
+    this.cityButtonTarget.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const cityMenu = this.cityMenuTarget;
+      let hasVisibleItems = false;
+
+      cityMenu.querySelectorAll('.dropdown-item').forEach(item => {
+        const cityName = item.textContent.toLowerCase();
+        if (cityName.includes(searchTerm)) {
+          item.closest('li').style.display = '';
+          hasVisibleItems = true;
+        } else {
+          item.closest('li').style.display = 'none';
+        }
+      });
+
+      // Toggle dropdown visibility
+      if (searchTerm.length > 0 && hasVisibleItems) {
+        cityMenu.classList.remove('hidden');
+        cityMenu.classList.add('show');
+      } else {
+        cityMenu.classList.add('hidden');
+        cityMenu.classList.remove('show');
+      }
+    });
+
+    // Set up club typeahead
+    this.clubButtonTarget.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const clubMenu = this.clubMenuTarget;
+      let hasVisibleItems = false;
+
+      clubMenu.querySelectorAll('.dropdown-item').forEach(item => {
+        const clubName = item.textContent.toLowerCase();
+        if (clubName.includes(searchTerm)) {
+          item.closest('li').style.display = '';
+          hasVisibleItems = true;
+        } else {
+          item.closest('li').style.display = 'none';
+        }
+      });
+
+      // Toggle dropdown visibility
+      if (searchTerm.length > 0 && hasVisibleItems) {
+        clubMenu.classList.remove('hidden');
+        clubMenu.classList.add('show');
+      } else {
+        clubMenu.classList.add('hidden');
+        clubMenu.classList.remove('show');
+      }
+    });
+
     // Set up city dropdown items
     this.cityMenuTarget.querySelectorAll('.dropdown-item').forEach(item => {
       item.addEventListener('click', (e) => {
@@ -62,42 +100,24 @@ export default class extends Controller {
         // Set data-selected on clicked item
         item.setAttribute('data-selected', 'true')
         
-        this.cityButtonTarget.querySelector('span').textContent = item.textContent
+        this.cityButtonTarget.value = item.textContent
         this.closeAllDropdowns()
         this.handleCitySelection(item.dataset.value)
       })
     })
-    
-    // Set up club dropdown
-    this.clubButtonTarget.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      
-      const isExpanded = this.clubButtonTarget.getAttribute('aria-expanded') === 'true'
-      
-      if (isExpanded) {
-        this.closeAllDropdowns()
-      } else {
-        this.closeAllDropdowns()
-        this.clubMenuTarget.classList.remove('hidden')
-        this.clubMenuTarget.classList.add('show')
-        this.clubButtonTarget.setAttribute('aria-expanded', 'true')
-        this.clubButtonTarget.querySelector('svg').style.transform = 'rotate(180deg)'
-      }
-    })
-    
+
     // Set up club dropdown items
-    this.clubMenuTarget.querySelectorAll('.dropdown-item').forEach(item => {
+    this.clubMenuTarget.parentElement.querySelectorAll('.dropdown-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault()
         e.stopPropagation()
         
         // Remove data-selected from all items
-        this.clubMenuTarget.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
+        this.clubMenuTarget.parentElement.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
         // Set data-selected on clicked item
         item.setAttribute('data-selected', 'true')
         
-        this.clubButtonTarget.querySelector('span').textContent = item.textContent
+        this.clubButtonTarget.value = item.textContent
         this.closeAllDropdowns()
         this.handleClubSelection(item.dataset.value, item.dataset.city)
       })
@@ -125,7 +145,7 @@ export default class extends Controller {
     this.clubButtonTarget.querySelector('span').textContent = 'Select a club...'
     
     // Filter club dropdown items
-    const clubItems = this.clubMenuTarget.querySelectorAll('.dropdown-item')
+    const clubItems = this.clubMenuTarget.parentElement.querySelectorAll('.dropdown-item')
     clubItems.forEach(item => {
       const showOption = !cityValue || item.dataset.city === cityValue
       item.closest('li').style.display = showOption ? '' : 'none'
