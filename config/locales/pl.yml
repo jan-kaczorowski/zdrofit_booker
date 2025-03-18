@@ -1,0 +1,9 @@
+pl:
+  hello: "Cześć"
+  activerecord:
+    models:
+      user: "Użytkownik"
+    attributes:
+      user:
+        email: "Email"
+        password: "Hasło" 

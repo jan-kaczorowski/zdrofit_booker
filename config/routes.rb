@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post "/login", to: "home#login"
   get "/dashboard", to: "home#dashboard", as: :dashboard
   get "/weekly_classes", to: "home#weekly_classes"
+  get "/ongoing_bookings", to: "home#ongoing_bookings"
   post "/book", to: "home#book"
   post "/update_location", to: "home#update_location"
 end

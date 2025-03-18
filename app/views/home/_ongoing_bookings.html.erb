@@ -1,0 +1,28 @@
+<turbo-frame id="ongoing-bookings-container">
+<div class="mt-8 overflow-x-auto">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Next Occurence</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trainer</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% if bookings&.any? %>
+        <% bookings.each do |booking| %>
+          <%= render partial: "booking_row", locals: { booking: booking } %>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+            (No bookings requested so far)
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div> 
+</turbo-frame>

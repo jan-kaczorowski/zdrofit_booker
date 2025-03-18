@@ -76,3 +76,5 @@ end
 gem "levenshtein", "~> 0.2.2"
 
 gem "solid_queue_dashboard", "~> 0.2.0"
+
+gem "rails-i18n", "~> 8.0"

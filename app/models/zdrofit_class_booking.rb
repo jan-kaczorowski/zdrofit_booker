@@ -13,6 +13,10 @@ class ZdrofitClassBooking < ApplicationRecord
   private
 
   def book_class
-    ClassBookerJob.set(wait_until: booking_time).perform_later(id)
+    if booking_time.past?
+      ClassBookerJob.perform_later(id)
+    else
+      ClassBookerJob.set(wait_until: booking_time).perform_later(id)
+    end
   end
 end
