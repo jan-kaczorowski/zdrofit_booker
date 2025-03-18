@@ -7,6 +7,7 @@ export default class extends Controller {
   connect() {
     console.log("Dashboard controller connected - v2")
     this.setupDropdowns()
+    this.setupSearch()
     console.log('chrum', this.cityButtonTarget.querySelector('span').textContent.trim())
     this.handleCitySelection(this.cityButtonTarget.querySelector('span').textContent.trim())
     
@@ -16,6 +17,18 @@ export default class extends Controller {
         this.closeAllDropdowns()
       }
     })
+
+    document.addEventListener('turbo:frame-load', (e) => {
+      console.log('turbo:frame-load event triggered', e)
+      this.setupSearch()
+    })
+
+    document.addEventListener('turbo:after-stream-render', (e) => {
+      console.log('turbo:after-stream-render event triggered', e)
+      this.setupSearch()
+    })
+    
+    
   }
   
   setupDropdowns() {
@@ -117,6 +130,7 @@ export default class extends Controller {
       const showOption = !cityValue || item.dataset.city === cityValue
       item.closest('li').style.display = showOption ? '' : 'none'
     })
+    this.setupSearch();
   }
   
   handleClubSelection(clubId, cityName) {
@@ -201,5 +215,32 @@ export default class extends Controller {
         console.error("Error:", error)
       })
     }
+  }
+
+  setupSearch() {
+    const searchInput = document.getElementById('class-search')
+    console.log('setupSearch method called', searchInput)
+    
+    // Check if the search input exists
+    if (!searchInput) {
+      console.warn("Search input not found")
+      return
+    }
+
+    const tableRows = document.querySelectorAll('#weekly-classes-container tbody tr')
+
+    searchInput.addEventListener('input', function() {
+      console.log('searchInput.addEventListener input method called', searchInput.value)
+      const searchTerm = searchInput.value.toLowerCase()
+
+      tableRows.forEach(row => {
+        const className = row.querySelector('td:nth-child(2)').textContent.toLowerCase()
+        if (className.includes(searchTerm)) {
+          row.style.display = ''
+        } else {
+          row.style.display = 'none'
+        }
+      })
+    })
   }
 } 
