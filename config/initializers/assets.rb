@@ -9,3 +9,6 @@ Rails.application.config.assets.version = "1.0"
 # Add solid_queue_dashboard assets
 Rails.application.config.assets.paths << Gem.loaded_specs['solid_queue_dashboard'].full_gem_path + '/app/assets/stylesheets'
 Rails.application.config.assets.paths << Gem.loaded_specs['solid_queue_dashboard'].full_gem_path + '/app/assets/javascripts'
+
+# Add this line if it's not already there
+Rails.application.config.assets.precompile += %w( controllers/*.js )

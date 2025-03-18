@@ -72,6 +72,12 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
   config.solid_queue.logger = ActiveSupport::Logger.new(STDOUT)
+
+  # This should be false in development
+  config.assets.compile = false
+
+  # This should also be false in development
+  config.assets.digest = false
 end
 
 HttpLog.configure do |config|

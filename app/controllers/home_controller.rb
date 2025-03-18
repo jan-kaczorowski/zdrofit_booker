@@ -51,8 +51,9 @@ class HomeController < ApplicationController
       render json: @classes
     end
   rescue => e
+    Rails.logger.error("Error fetching weekly classes: #{e.message}")
     if turbo_frame_request?
-      render html: "<div class='p-4 bg-red-100 text-red-700 rounded'>Error: #{e.message}</div>".html_safe
+      render html: "<turbo-frame id=\"weekly-classes-container\"><div class='p-4 bg-red-100 text-red-700 rounded'>Error: #{e.message}</div></turbo-frame>".html_safe
     else
       render json: { error: e.message }, status: :unprocessable_entity
     end

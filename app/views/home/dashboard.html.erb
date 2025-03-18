@@ -47,11 +47,12 @@
 
 
               <%# Update the dropdowns HTML %>
-              <div class="mt-4 space-y-4">
+              <div class="mt-4 space-y-4"> 
                 <%# Cities dropdown %>
                 <div class="w-full">
                   <div class="dropdown relative">
                     <button id="city-dropdown" type="button" 
+                            data-dashboard-target="cityButton"
                             class="w-full inline-flex justify-between items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                             aria-haspopup="true" 
                             aria-expanded="false">
@@ -60,11 +61,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
-                    <div class="dropdown-menu hidden" role="menu">
+                    <div class="dropdown-menu hidden" role="menu" data-dashboard-target="cityMenu">
                       <ul class="py-1">
                         <% @clubs.map { |club| club.dig('City', 'Name') }.uniq.sort.each do |city| %>
                           <li>
-                            <div class="dropdown-item" data-value="<%= city %>" <%= 'data-selected="true"' if city == @user.last_city_id %>>
+                            <div class="dropdown-item" 
+                                 data-value="<%= city %>" 
+                                 <%= 'data-selected="true"' if city == @user.last_city_id %>>
                               <%= city %>
                             </div>
                           </li>
@@ -75,9 +78,10 @@
                 </div>
 
                 <%# Clubs dropdown %>
-                <div class="w-full <%= 'hidden' unless @user.last_city_id.present? %>" id="clubs-container">
+                <div class="w-full <%= 'hidden' unless @user.last_city_id.present? %>" id="clubs-container" data-dashboard-target="clubsContainer">
                   <div class="dropdown relative">
                     <button id="club-dropdown" type="button" 
+                            data-dashboard-target="clubButton"
                             class="w-full inline-flex justify-between items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                             aria-haspopup="true" 
                             aria-expanded="false">
@@ -93,7 +97,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
-                    <div class="dropdown-menu hidden" role="menu">
+                    <div class="dropdown-menu hidden" role="menu" data-dashboard-target="clubMenu">
                       <ul class="py-1">
                         <% @clubs.each do |club| %>
                           <li>
@@ -118,25 +122,9 @@
               </div>
 
               <%# Move the table container here %>
-              <div id="weekly-classes-container" class="mt-8 hidden">
-                <div class="overflow-x-auto">
-                  <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Day</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hour</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trainer</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Debug</th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200" id="classes-table-body">
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <turbo-frame id="weekly-classes-container" class="mt-8 hidden" src="/weekly_classes?club_id=${clubId}">
+
+              </turbo-frame>
             </div>
             
             <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
@@ -215,327 +203,33 @@
 }
 
 var dclhandler = false;
-const start = () => {
-    if (dclhandler) { document.removeEventListener('DOMContentLoaded', start); }
-    // Add renderClassesTable function
-    function renderClassesTable(data) {
-      const tableBody = document.getElementById('classes-table-body');
-      tableBody.innerHTML = '';
-      
-      console.log('Rendering table with data:', data);
-      
-      if (!data || !Array.isArray(data)) {
-        console.error('Invalid data structure:', data);
-        tableBody.innerHTML = `
-          <tr>
-            <td colspan="6" class="text-center py-4">No classes found or invalid data structure</td>
-          </tr>
-        `;
-        return;
-      }
 
-      let hasClasses = false;
-      console.log('bigdata', data)
-      data.forEach(obj => {
-            if (!obj || !obj.Id || !obj.Name) return;
-            
-            hasClasses = true;
-            const row = document.createElement('tr');
-
-            // Format the date
-            const lang = window.navigator.language;
-            const startTime = new Date(obj.StartTime);
-            const startDow = startTime.toLocaleString(lang, {
-              weekday: 'short'
-            }).toUpperCase();
-            const startHour = startTime.toLocaleString(lang, { hour: '2-digit', minute: '2-digit', hour12: false }).toUpperCase();
-            const formattedDate = startTime.toLocaleString(lang, {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            }).replace(',', '');
-
-            row.innerHTML = `
-              <td>${startDow}</td>
-              <td>${startHour}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                ${formattedDate}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                ${obj.Name}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                ${obj.Trainer}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button 
-                  class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded book-button"
-                  data-class-id="${obj.Id}"
-                  data-next-occurrence="${obj.StartTime}"
-                >
-                  Book automatically
-                </button>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button 
-                  class="text-gray-500 hover:text-gray-700 debug-button"
-                  title="Show debug info"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-              </td>
-            `;
-            tableBody.appendChild(row);
-
-            // Add click event listener to the button
-            const button = row.querySelector('.book-button');
-            button.addEventListener('click', function() {
-              bookClassesWeekly(obj.Id, this, obj);
-            });
-
-            // Add click event listener for the debug button
-            const debugButton = row.querySelector('.debug-button');
-            debugButton.addEventListener('click', function() {
-              console.log('Class object:', JSON.stringify(obj, null, 2));
-            });
-      });
-
-      if (!hasClasses) {
-        tableBody.innerHTML = `
-          <tr>
-            <td colspan="4" class="text-center py-4">No classes found for this club</td>
-          </tr>
-        `;
-      }
-    }
-
-    console.log('clubSelect')
-
-    // Add loadWeeklyClasses function
-    function loadWeeklyClasses(clubId) {
-      const weeklyClassesContainer = document.getElementById('weekly-classes-container');
-      weeklyClassesContainer.classList.remove('hidden');
-
-      const tableBody = document.getElementById('classes-table-body');
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="7" class="text-center py-8">
-            <div style="animation: spin 1s linear infinite;" class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-indigo-600"></div>
-            <span class="sr-only">Loading...</span>
-          </td>
-        </tr>
-      `;
-
-      fetch(`/weekly_classes?club_id=${clubId}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            throw new Error(data.error);
-          }
-          console.log('Received data:', data);
-          renderClassesTable(data);
-        })
-        .catch(error => {
-          tableBody.innerHTML = `
-            <tr>
-              <td colspan="4">
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-                  Failed to load classes: ${error.message}
-                </div>
-              </td>
-            </tr>
-          `;
-        });
-    }
-
-    // Initialize dropdowns if there's a last selected city
-    const lastCity = <%= raw(@user.last_city_id.to_json) %>;
-    const lastClubId = <%= raw(@user.last_club_id.to_json) %>;
-    console.log('lastCity', lastCity)
-    console.log('lastClubId', lastClubId)
-    
-    if (lastCity) {
-      // Show clubs container
-      const clubsContainer = document.getElementById('clubs-container');
-      clubsContainer.classList.remove('hidden');
-      
-      // Filter club options
-      const clubItems = document.querySelectorAll('#clubs-container .dropdown-item');
-      clubItems.forEach(item => {
-        const showOption = item.dataset.city === lastCity;
-        item.closest('li').style.display = showOption ? '' : 'none';
-      });
-    }
-    
-    if (lastClubId) {
-      // If there's a last selected club, set it up
-      const selectedClubItem = document.querySelector(`#clubs-container .dropdown-item[data-value="${lastClubId}"]`);
-      if (selectedClubItem) {
-        // Set the club dropdown text
-        const clubButton = document.getElementById('club-dropdown');
-        clubButton.querySelector('span').textContent = selectedClubItem.textContent;
-        
-        // Mark the item as selected
-        selectedClubItem.setAttribute('data-selected', 'true');
-        
-        // Load the classes
-        loadWeeklyClasses(lastClubId);
-      }
-    }
-
-    // Make sure dropdown menus are properly initialized
-    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-      // Ensure the menu has the hidden class initially
-      menu.classList.add('hidden');
-      
-      // Make sure all list items are properly initialized
-      const items = menu.querySelectorAll('.dropdown-item');
-      items.forEach(item => {
-        // Make sure the parent li is visible
-        if (item.closest('li')) {
-          item.closest('li').style.display = '';
-        }
-      });
-    });
-
-    // Update the setupDropdown function
-    function setupDropdown(buttonId, onSelect) {
-      const button = document.getElementById(buttonId);
-      if (!button) {
-        console.error(`Button with ID ${buttonId} not found`);
-        return;
-      }
-      
-      const menu = button.nextElementSibling;
-      if (!menu) {
-        console.error(`Menu for button ${buttonId} not found`);
-        return;
-      }
-      
-      const selectedText = button.querySelector('span');
-      const arrow = button.querySelector('svg');
-      
-      function closeAllDropdowns() {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-          menu.classList.add('hidden');
-          menu.classList.remove('show');
-          const btn = menu.previousElementSibling;
-          if (btn) {
-            btn.setAttribute('aria-expanded', 'false');
-            const arrow = btn.querySelector('svg');
-            if (arrow) arrow.style.transform = '';
-          }
-        });
-      }
-
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        console.log(`Clicked ${buttonId}`);
-        const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        
-        if (isExpanded) {
-          closeAllDropdowns();
-        } else {
-          closeAllDropdowns();
-          
-          // Debug: Check menu content before showing
-          console.log(`Menu items for ${buttonId}:`, menu.querySelectorAll('.dropdown-item').length);
-          
-          menu.classList.remove('hidden');
-          menu.classList.add('show');
-          button.setAttribute('aria-expanded', 'true');
-          arrow.style.transform = 'rotate(180deg)';
-        }
-      });
-      
-      menu.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          // Remove data-selected from all items
-          menu.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'));
-          // Set data-selected on clicked item
-          item.setAttribute('data-selected', 'true');
-          
-          selectedText.textContent = item.textContent;
-          closeAllDropdowns();
-          onSelect(item.dataset.value);
-        });
-      });
-
-      // Close when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!button.contains(e.target) && !menu.contains(e.target)) {
-          closeAllDropdowns();
-        }
-      });
-    }
-
-    // Setup dropdowns
-    setupDropdown('city-dropdown', (cityValue) => {
-      const clubsContainer = document.getElementById('clubs-container');
-      clubsContainer.classList.toggle('hidden', !cityValue);
-      
-      // Reset club dropdown text
-      const clubButton = document.getElementById('club-dropdown');
-      clubButton.querySelector('span').textContent = 'Select a club...';
-      
-      const clubItems = document.querySelectorAll('#clubs-container .dropdown-item');
-      clubItems.forEach(item => {
-        const showOption = !cityValue || item.dataset.city === cityValue;
-        item.closest('li').style.display = showOption ? '' : 'none';
-      });
-
-      fetch('/update_location', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-          city_id: cityValue,
-          club_id: null
-        })
-      });
-    });
-
-    setupDropdown('club-dropdown', (clubId) => {
-      if (!clubId) return;
-      
-      const cityValue = document.querySelector('.selected-city').textContent;
-      
-      fetch('/update_location', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-          city_id: cityValue,
-          club_id: clubId
-        })
-      });
-
-      loadWeeklyClasses(clubId);
-    });
-
-    if (lastClubId) {  // If a club is pre-selected (last_club_id)
-      loadWeeklyClasses(lastClubId);
-    }
-  };
-
-if (document.readyState !== 'loading') {
-    start();
-} else {
-    document.addEventListener('DOMContentLoaded', start);
-    dclhandler = true;
-}
 <% end %> 
 
-
-</div> 
+<style>
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 0.25rem;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .dropdown-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #374151;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f3f4f6;
+  }
+</style> 
