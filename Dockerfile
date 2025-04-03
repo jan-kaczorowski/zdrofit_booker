@@ -103,6 +103,8 @@ RUN groupadd --system --gid 1000 rails && \
 
 USER 1000:1000
 
+RUN mkdir -p /rails/public/assets && \
+    chmod -R 777 /rails/public/assets
 # Keep container running (testing)
 # CMD ["tail", "-f", "/dev/null"]
 
