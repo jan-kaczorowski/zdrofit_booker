@@ -14,6 +14,9 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 # Rails app lives here
 WORKDIR /rails
 
+USER root
+RUN mkdir -p /rails/public/assets && chown -R 1000:1000 /rails/public/assets
+
 # Install base packages
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update -qq && \
@@ -103,7 +106,7 @@ RUN groupadd --system --gid 1000 rails && \
 
 USER 1000:1000
 
-VOLUME /rails/public/assets
+
 # Set the default locale to UTF-8
 # Keep container running (testing)
 # CMD ["tail", "-f", "/dev/null"]
