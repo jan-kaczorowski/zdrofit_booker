@@ -84,10 +84,12 @@ builder:
   arch: amd64
 
 # Use a different ssh user than root
+# ssh:
+#   user: ubuntu
+#   keys: [ "~/.ssh/my-aws.pem" ]
 ssh:
-  user: ubuntu
-  keys: [ "~/.ssh/my-aws.pem" ]
-
+  user: root
+  keys: [ "~/.ssh/id_rsa" ]
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:
 #   db:
