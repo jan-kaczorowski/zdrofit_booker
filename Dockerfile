@@ -102,9 +102,7 @@ RUN groupadd --system --gid 1000 rails && \
     chown -R rails:rails /usr/local/bundle tmp db log storage
 
 USER 1000:1000
-
-RUN mkdir -p /rails/public/assets && \
-    chmod -R 777 /rails/public/assets
+# Set the default locale to UTF-8
 # Keep container running (testing)
 # CMD ["tail", "-f", "/dev/null"]
 
