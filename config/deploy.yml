@@ -7,7 +7,7 @@ image: jan-kaczorowski/zdrofit_booker
 # Deploy to these servers.
 servers:
   web:
-    - 52.28.8.239
+    - 157.180.0.57
   # job:
   #   hosts:
   #     - 192.168.0.1
