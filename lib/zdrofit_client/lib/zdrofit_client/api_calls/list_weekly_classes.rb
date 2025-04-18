@@ -39,7 +39,7 @@ module ZdrofitClient
                 next false unless el.is_a?(Hash)
 
                 next unless el["Status"] == "Bookable" ||
-                            (Time.parse(el["StartTime"]).future? && el.dig("BookingIndicator", "Available")&.to_i&.positive?)
+                            (Time.parse(el["StartTime"]).future?)
 
                 memo << el
               end

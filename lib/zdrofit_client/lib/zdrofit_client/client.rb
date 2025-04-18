@@ -18,7 +18,8 @@ module ZdrofitClient
       get_my_calendar: ZdrofitClient::ApiCalls::GetMyCalendar,
       get_personal_id_info: ZdrofitClient::ApiCalls::GetPersonalIdInfo,
       get_phone_info: ZdrofitClient::ApiCalls::GetPhoneInfo,
-      get_profile_for_edit: ZdrofitClient::ApiCalls::GetProfileForEdit
+      get_profile_for_edit: ZdrofitClient::ApiCalls::GetProfileForEdit,
+      get_class_details: ZdrofitClient::ApiCalls::GetClassDetails
     }.freeze
 
     def initialize(login, password)
