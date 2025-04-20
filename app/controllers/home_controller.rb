@@ -116,7 +116,7 @@ class HomeController < ApplicationController
   def authenticate_user!
     return unless session[:user_id].blank?
 
-    redirect_to index_path and return
+    redirect_to root_path and return
   end
 
   def fetch_user

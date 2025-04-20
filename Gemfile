@@ -45,11 +45,11 @@ gem "httparty"
 gem "awesome_print"
 gem "dotenv"
 gem "zdrofit_client", path: "lib/zdrofit_client"
+gem "httplog"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri x64_mingw mingw], require: "debug/prelude"
-  gem "httplog"
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
