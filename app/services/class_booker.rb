@@ -10,7 +10,7 @@ class ClassBooker
   end
 
   def call
-    return unless next_occurrence_utc > 2.hours.from_now
+    return unless @booking.next_occurrence_utc > 2.hours.from_now
 
     if @booking.available_seats_count.positive?
       @zdrofit_api_client.book_class(class_id: @booking.class_id, club_id: @booking.club_id)
