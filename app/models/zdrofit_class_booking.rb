@@ -11,15 +11,15 @@ class ZdrofitClassBooking < ApplicationRecord
                             .in_time_zone("UTC")
   end
 
-  after_create :book_class
-
-  private
-
   def available_seats_count
     zdrofit_user.zdrofit_api_client
                 .get_class_details(class_id: class_id)
                 .dig("BookingIndicator", "Available")&.to_i
   end
+
+  after_create :book_class
+
+  private
 
   def book_class
     if booking_time.past?
