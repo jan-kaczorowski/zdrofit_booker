@@ -39,25 +39,36 @@ module ZdrofitClient
       @authenticated_headers = @default_headers
     end
 
-    def login
-      response = self.class.post(
-        "/Auth/Login",
-        headers: @default_headers,
-        body: {
-          RememberMe: false,
-          Login: @login,
-          Password: @password
-        }.to_json
-      )
+    def login(retries: 3)
+      attempts = 0
 
-      raise "Login failed: #{response.body}" unless response.success?
+      begin
+        attempts += 1
+        response = self.class.post(
+          "/Auth/Login",
+          headers: @default_headers,
+          body: {
+            RememberMe: false,
+            Login: @login,
+            Password: @password
+          }.to_json
+        )
 
-      @auth_token = response.headers["jwt-token"]
-      @authenticated_headers = @default_headers.merge({
-        "Authorization" => "Bearer #{@auth_token}"
-      })
+        raise "Login failed: #{response.body}" unless response.success?
 
-      self
+        @auth_token = response.headers["jwt-token"]
+        @authenticated_headers = @default_headers.merge({
+          "Authorization" => "Bearer #{@auth_token}"
+        })
+
+        self
+      rescue => e
+        if attempts < retries
+          sleep(1 * attempts)
+          retry
+        end
+        raise e
+      end
     end
 
     def method_missing(method_name, *args, **kwargs)
