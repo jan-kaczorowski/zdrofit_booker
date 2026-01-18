@@ -1,14 +1,29 @@
 class ZdrofitClassBooking < ApplicationRecord
   belongs_to :zdrofit_user
 
-  def booking_time
-    next_occurrence_utc - 2.days + 1.minute
+  # Interprets the stored datetime as Warsaw local time
+  # (The API returns times in Warsaw timezone without offset)
+  def next_occurrence_in_warsaw
+    ActiveSupport::TimeZone["Europe/Warsaw"].local(
+      next_occurrence.year,
+      next_occurrence.month,
+      next_occurrence.day,
+      next_occurrence.hour,
+      next_occurrence.min,
+      next_occurrence.sec
+    )
   end
 
+  # Returns the class start time in UTC
   def next_occurrence_utc
-    ActiveSupport::TimeZone["Europe/Warsaw"]
-                            .parse(next_occurrence.iso8601)
-                            .in_time_zone("UTC")
+    next_occurrence_in_warsaw.utc
+  end
+
+  # Returns the time when the booking job should run
+  # Booking opens exactly 2 days before class at the same Warsaw time
+  # Add 10 seconds buffer to ensure the booking API is ready
+  def booking_time
+    (next_occurrence_in_warsaw - 2.days + 10.seconds).utc
   end
 
   def available_seats_count
