@@ -42,6 +42,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 gem "httparty"
+gem "socksify"
 gem "awesome_print"
 gem "dotenv"
 gem "zdrofit_client", path: "lib/zdrofit_client"

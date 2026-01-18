@@ -1,4 +1,5 @@
 require "httparty"
+require "socksify"
 require "zdrofit_client/version"
 require_relative "zdrofit_client/api_call"
 
@@ -10,6 +11,23 @@ module ZdrofitClient
 
   def self.new(login, password)
     Client.new(login, password)
+  end
+
+  def self.configure_proxy(url)
+    return if url.nil? || url.empty?
+
+    uri = URI.parse(url)
+    TCPSocket.socks_server = uri.host
+    TCPSocket.socks_port = uri.port
+    TCPSocket.socks_username = uri.user if uri.user
+    TCPSocket.socks_password = uri.password if uri.password
+  end
+
+  def self.disable_proxy
+    TCPSocket.socks_server = nil
+    TCPSocket.socks_port = nil
+    TCPSocket.socks_username = nil
+    TCPSocket.socks_password = nil
   end
 end
 
