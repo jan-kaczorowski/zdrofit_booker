@@ -3,7 +3,7 @@ module ZdrofitClient
     include HTTParty
     base_uri "https://zdrofit.perfectgym.pl/ClientPortal2"
 
-    attr_reader :auth_token
+    attr_reader :auth_token, :token_expires_at
     attr_reader :authenticated_headers
 
     API_CALLS = {
@@ -26,6 +26,7 @@ module ZdrofitClient
       @login = login
       @password = password
       @auth_token = nil
+      @token_expires_at = nil
       @default_headers = {
         "Accept" => "application/json, text/plain, */*",
         "Accept-Language" => "pl",
@@ -37,6 +38,16 @@ module ZdrofitClient
         "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
       }
       @authenticated_headers = @default_headers
+    end
+
+    # Set a previously cached auth token (skips login)
+    def set_auth_token(token, expires_at = nil)
+      @auth_token = token
+      @token_expires_at = expires_at
+      @authenticated_headers = @default_headers.merge({
+        "Authorization" => "Bearer #{@auth_token}"
+      })
+      self
     end
 
     def login(retries: 3)
@@ -57,6 +68,7 @@ module ZdrofitClient
         raise "Login failed: #{response.body}" unless response.success?
 
         @auth_token = response.headers["jwt-token"]
+        @token_expires_at = parse_token_expiry(response.headers["set-cookie"])
         @authenticated_headers = @default_headers.merge({
           "Authorization" => "Bearer #{@auth_token}"
         })
@@ -88,6 +100,24 @@ module ZdrofitClient
 
     def ensure_authenticated
       login if @auth_token.nil?
+    end
+
+    # Parse token expiry from Set-Cookie header
+    # Example: "CpAuthToken=...; expires=Tue, 20-Jan-2026 04:20:21 GMT; path=/; ..."
+    def parse_token_expiry(set_cookie_header)
+      return nil unless set_cookie_header
+
+      # Handle array of cookies or single cookie string
+      cookie_str = set_cookie_header.is_a?(Array) ? set_cookie_header.first : set_cookie_header
+
+      if cookie_str =~ /expires=([^;]+)/i
+        Time.parse(Regexp.last_match(1))
+      else
+        # Default to 8 hours if we can't parse expiry
+        Time.current + 8.hours
+      end
+    rescue ArgumentError
+      Time.current + 8.hours
     end
   end
 end

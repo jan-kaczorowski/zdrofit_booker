@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_18_152600) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_19_202339) do
   create_table "zdrofit_class_bookings", force: :cascade do |t|
     t.integer "class_id"
     t.integer "club_id"
@@ -33,6 +33,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_152600) do
     t.datetime "updated_at", null: false
     t.string "last_city_id"
     t.integer "last_club_id"
+    t.text "auth_token"
+    t.datetime "auth_token_expires_at"
   end
 
   add_foreign_key "zdrofit_class_bookings", "zdrofit_users"
