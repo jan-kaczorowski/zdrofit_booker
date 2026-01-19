@@ -30,13 +30,27 @@ class HomeController < ApplicationController
   end
 
   def ongoing_bookings
-    @bookings = ZdrofitClassBooking.where(zdrofit_user: @user)
+    # Only pending bookings with future class times
+    @pending_bookings = ZdrofitClassBooking
+      .where(zdrofit_user: @user, status: "pending")
+      .where("next_occurrence > ?", Time.current)
+      .order(:next_occurrence)
+
+    # Failed bookings (separate, for collapsed section)
+    @failed_bookings = ZdrofitClassBooking
+      .where(zdrofit_user: @user, status: "failed")
+      .order(created_at: :desc)
+      .limit(10)
+
     # If it's a Turbo Frame request, render the partial
     if turbo_frame_request?
-      render partial: "ongoing_bookings", locals: { bookings: @bookings }
+      render partial: "ongoing_bookings", locals: {
+        pending_bookings: @pending_bookings,
+        failed_bookings: @failed_bookings
+      }
     else
       # For API requests, return JSON
-      render json: @bookings
+      render json: { pending: @pending_bookings, failed: @failed_bookings }
     end
   rescue => e
     Rails.logger.error("Error fetching ongoing bookings: #{e.message}")
@@ -47,27 +61,76 @@ class HomeController < ApplicationController
     end
   end
 
+  def cancel_booking
+    booking = ZdrofitClassBooking.find_by(id: params[:id], zdrofit_user: @user)
+
+    if booking&.destroy
+      render json: { success: true }
+    else
+      render json: { success: false, error: "Booking not found or could not be deleted" }, status: :unprocessable_entity
+    end
+  rescue => e
+    render json: { success: false, error: e.message }, status: :unprocessable_entity
+  end
+
   def weekly_classes
     if params[:club_id]
-    @bookings = ZdrofitClassBooking.where(zdrofit_user: @user, club_id: params[:club_id])
-                                   .select(:id, :class_id, :next_occurrence)
-    client = @user.zdrofit_api_client
-    @classes = client.list_weekly_classes(
-      club_id: params[:club_id],
-      date: 10.days.from_now.strftime("%F")
-    )
+      @bookings = ZdrofitClassBooking.where(zdrofit_user: @user, club_id: params[:club_id], status: "pending")
+                                     .select(:id, :class_id, :next_occurrence)
+      client = @user.zdrofit_api_client
+      @classes = client.list_weekly_classes(
+        club_id: params[:club_id],
+        date: 10.days.from_now.strftime("%F")
+      )
+
+      # Generate next 5 days for tabs
+      @next_5_days = (0..4).map do |i|
+        date = Date.current + i
+        {
+          date: date,
+          label: date == Date.current ? "Today" : date.strftime("%a %d"),
+          day_name: date.strftime("%A"),
+          formatted: date.strftime("%A, %b %d")
+        }
+      end
+
+      # Filter classes to only show the next 5 days
+      five_days_from_now = Date.current + 5
+      @classes = @classes.select do |cl|
+        class_date = DateTime.parse(cl["StartTime"]).to_date
+        class_date >= Date.current && class_date < five_days_from_now
+      end
+
+      # Group classes by date
+      @classes_by_date = @classes.group_by do |cl|
+        DateTime.parse(cl["StartTime"]).to_date
+      end
+
+      # Mark classes that already have pending bookings
+      @classes.each do |cl|
+        match = @bookings.find { |b| b.class_id == cl["Id"] && b.next_occurrence == DateTime.parse(cl["StartTime"]) }
+        cl["BookingId"] = match&.id
+      end
+
+      # Default to first day with classes or today
+      @selected_date = if params[:date].present?
+        Date.parse(params[:date])
+      else
+        @next_5_days.first[:date]
+      end
     else
-      @bookings, @classes = [], []
+      @bookings, @classes, @classes_by_date, @next_5_days = [], [], {}, []
+      @selected_date = Date.current
     end
 
-    @classes.each do |cl|
-      match = @bookings.find { |b| b.class_id == cl["Id"] && b.next_occurrence == DateTime.parse(cl["StartTime"]) }
-      cl["BookingId"] = match&.id
-    end
-    # binding.break
     # If it's a Turbo Frame request, render the partial
     if turbo_frame_request?
-      render partial: "weekly_classes", locals: { classes: @classes }
+      render partial: "weekly_classes", locals: {
+        classes: @classes,
+        classes_by_date: @classes_by_date,
+        next_5_days: @next_5_days,
+        selected_date: @selected_date
+      }
     else
       # For API requests, return JSON
       render json: @classes

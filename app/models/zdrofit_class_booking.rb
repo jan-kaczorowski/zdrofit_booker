@@ -26,6 +26,30 @@ class ZdrofitClassBooking < ApplicationRecord
     (next_occurrence_in_warsaw - 2.days + 10.seconds).utc
   end
 
+  # Returns the booking time in Warsaw timezone for display
+  def booking_time_in_warsaw
+    booking_time.in_time_zone("Europe/Warsaw")
+  end
+
+  # Returns a human-readable countdown to booking time
+  def time_until_booking
+    return "Booking window passed" if booking_time.past?
+
+    seconds = (booking_time - Time.current).to_i
+    return "Less than a minute" if seconds < 60
+
+    days = seconds / 86400
+    hours = (seconds % 86400) / 3600
+    minutes = (seconds % 3600) / 60
+
+    parts = []
+    parts << "#{days} day#{'s' if days != 1}" if days > 0
+    parts << "#{hours} hour#{'s' if hours != 1}" if hours > 0
+    parts << "#{minutes} minute#{'s' if minutes != 1}" if minutes > 0 && days == 0
+
+    "in #{parts.join(', ')}"
+  end
+
   def available_seats_count
     zdrofit_user.zdrofit_api_client
                 .get_class_details(class_id: class_id)
