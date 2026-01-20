@@ -12,11 +12,11 @@ class HomeController < ApplicationController
 
     # Test the credentials by trying to login to Zdrofit
     begin
-      @user.zdrofit_client = @user.zdrofit_api_client
+      @user.zdrofit_api_client # This will login and cache the token
       session[:user_id] = @user.id
-      redirect_to dashboard_path, notice: "Successfully logged in"
+      redirect_to dashboard_path, notice: "Zalogowano pomyślnie"
     rescue => e
-      flash[:error] = "Invalid credentials: #{e.message}"
+      flash[:error] = "Nieprawidłowe dane logowania: #{e.message}"
       redirect_to root_path
     end
   end
@@ -83,14 +83,21 @@ class HomeController < ApplicationController
         date: 10.days.from_now.strftime("%F")
       )
 
-      # Generate next 5 days for tabs
+      # Generate next 5 days for tabs (Polish labels)
+      polish_days = %w[Niedz Pon Wt Śr Czw Pt Sob]
+      polish_days_full = %w[Niedziela Poniedziałek Wtorek Środa Czwartek Piątek Sobota]
+      polish_months = %w[sty lut mar kwi maj cze lip sie wrz paź lis gru]
+
       @next_5_days = (0..4).map do |i|
         date = Date.current + i
+        day_abbr = polish_days[date.wday]
+        day_full = polish_days_full[date.wday]
+        month_abbr = polish_months[date.month - 1]
         {
           date: date,
-          label: date == Date.current ? "Today" : date.strftime("%a %d"),
-          day_name: date.strftime("%A"),
-          formatted: date.strftime("%A, %b %d")
+          label: date == Date.current ? "Dziś" : "#{day_abbr} #{date.day}",
+          day_name: day_full,
+          formatted: "#{day_full}, #{date.day} #{month_abbr}"
         }
       end
 

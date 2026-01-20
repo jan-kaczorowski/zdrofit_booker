@@ -15,8 +15,8 @@ export default class extends Controller {
       this.handleCitySelection(cityValue)
     }
 
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', (e) => {
+    // Close dropdowns when clicking outside (with delay to allow click events to process)
+    document.addEventListener('mousedown', (e) => {
       if (!e.target.closest('.dropdown')) {
         this.closeAllDropdowns()
       }
@@ -28,82 +28,66 @@ export default class extends Controller {
     })
   }
 
+  // Stimulus action: show city dropdown on focus
+  showCityDropdown() {
+    console.log("[Dashboard] showCityDropdown action triggered")
+    this.filterAndShowCityDropdown('')
+  }
+
+  // Stimulus action: filter city dropdown on input
+  filterCityDropdown(event) {
+    console.log("[Dashboard] filterCityDropdown action triggered:", event.target.value)
+    this.filterAndShowCityDropdown(event.target.value.toLowerCase())
+  }
+
+  // Stimulus action: show club dropdown on focus
+  showClubDropdown() {
+    console.log("[Dashboard] showClubDropdown action triggered")
+    this.filterAndShowClubDropdown('')
+  }
+
+  // Stimulus action: filter club dropdown on input
+  filterClubDropdown(event) {
+    console.log("[Dashboard] filterClubDropdown action triggered:", event.target.value)
+    this.filterAndShowClubDropdown(event.target.value.toLowerCase())
+  }
+
+  // Stimulus action: select a city from dropdown
+  selectCity(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const item = event.currentTarget
+    console.log("[Dashboard] selectCity action triggered:", item.dataset.value)
+
+    this.cityMenuTarget.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
+    item.setAttribute('data-selected', 'true')
+
+    this.cityButtonTarget.value = item.textContent.trim()
+    this.closeAllDropdowns()
+    this.handleCitySelection(item.dataset.value)
+  }
+
+  // Stimulus action: select a club from dropdown
+  selectClub(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const item = event.currentTarget
+    console.log("[Dashboard] selectClub action triggered:", item.dataset.value)
+
+    this.clubMenuTarget.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
+    item.setAttribute('data-selected', 'true')
+
+    this.clubButtonTarget.value = item.textContent.trim()
+    this.closeAllDropdowns()
+    this.handleClubSelection(item.dataset.value, item.dataset.city)
+  }
+
   setupDropdowns() {
-    // Set up city typeahead
-    this.cityButtonTarget.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase()
-      const cityMenu = this.cityMenuTarget
-      let hasVisibleItems = false
-
-      cityMenu.querySelectorAll('.dropdown-item').forEach(item => {
-        const cityName = item.textContent.toLowerCase()
-        if (cityName.includes(searchTerm)) {
-          item.closest('li').style.display = ''
-          hasVisibleItems = true
-        } else {
-          item.closest('li').style.display = 'none'
-        }
-      })
-
-      if (searchTerm.length > 0 && hasVisibleItems) {
-        cityMenu.classList.remove('hidden')
-      } else {
-        cityMenu.classList.add('hidden')
-      }
-    })
-
-    // Set up club typeahead
-    this.clubButtonTarget.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase()
-      const clubMenu = this.clubMenuTarget
-      let hasVisibleItems = false
-
-      clubMenu.querySelectorAll('.dropdown-item').forEach(item => {
-        const clubName = item.textContent.toLowerCase()
-        if (clubName.includes(searchTerm)) {
-          item.closest('li').style.display = ''
-          hasVisibleItems = true
-        } else {
-          item.closest('li').style.display = 'none'
-        }
-      })
-
-      if (searchTerm.length > 0 && hasVisibleItems) {
-        clubMenu.classList.remove('hidden')
-      } else {
-        clubMenu.classList.add('hidden')
-      }
-    })
-
-    // Set up city dropdown items
-    this.cityMenuTarget.querySelectorAll('.dropdown-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-
-        this.cityMenuTarget.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
-        item.setAttribute('data-selected', 'true')
-
-        this.cityButtonTarget.value = item.textContent
-        this.closeAllDropdowns()
-        this.handleCitySelection(item.dataset.value)
-      })
-    })
-
-    // Set up club dropdown items
-    this.clubMenuTarget.parentElement.querySelectorAll('.dropdown-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-
-        this.clubMenuTarget.parentElement.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
-        item.setAttribute('data-selected', 'true')
-
-        this.clubButtonTarget.value = item.textContent
-        this.closeAllDropdowns()
-        this.handleClubSelection(item.dataset.value, item.dataset.city)
-      })
-    })
+    console.log("[Dashboard] Setting up dropdowns")
+    console.log("[Dashboard] City menu has", this.cityMenuTarget.querySelectorAll('.dropdown-item').length, "items")
+    console.log("[Dashboard] Club menu has", this.clubMenuTarget.querySelectorAll('.dropdown-item').length, "items")
   }
 
   closeAllDropdowns() {
@@ -178,7 +162,7 @@ export default class extends Controller {
       return
     }
 
-    if (confirm(`Schedule auto-booking for ${className}?`)) {
+    if (confirm(`Zaplanować automatyczną rezerwację na ${className}?`)) {
       button.disabled = true
 
       fetch("/book", {
@@ -212,7 +196,7 @@ export default class extends Controller {
             if (infoDiv && !parentDiv.querySelector('.text-green-600')) {
               const scheduledText = document.createElement('div')
               scheduledText.className = 'text-xs text-green-600 mt-0.5'
-              scheduledText.textContent = '✓ Auto-booking scheduled'
+              scheduledText.textContent = '✓ Rezerwacja zaplanowana'
               infoDiv.parentNode.appendChild(scheduledText)
             }
           }
@@ -220,14 +204,14 @@ export default class extends Controller {
           // Refresh the ongoing bookings frame
           this.refreshOngoingBookings()
         } else {
-          alert(`Booking failed: ${data.error}`)
+          alert(`Rezerwacja nie powiodła się: ${data.error}`)
           button.disabled = false
         }
       })
       .catch(error => {
         console.error("Error:", error)
         button.disabled = false
-        alert("An error occurred while booking the class.")
+        alert("Wystąpił błąd podczas rezerwacji zajęć.")
       })
     }
   }
@@ -237,9 +221,9 @@ export default class extends Controller {
     const bookingId = button.dataset.bookingId
     const className = button.dataset.className
 
-    if (confirm(`Cancel auto-booking for ${className}?`)) {
+    if (confirm(`Anulować rezerwację na ${className}?`)) {
       button.disabled = true
-      button.textContent = "Canceling..."
+      button.textContent = "Anulowanie..."
 
       fetch(`/bookings/${bookingId}`, {
         method: "DELETE",
@@ -259,16 +243,16 @@ export default class extends Controller {
             this.loadClasses(this.currentClubId)
           }
         } else {
-          alert(`Failed to cancel: ${data.error}`)
+          alert(`Nie udało się anulować: ${data.error}`)
           button.disabled = false
-          button.textContent = "Cancel"
+          button.textContent = "Anuluj"
         }
       })
       .catch(error => {
         console.error("Error:", error)
         button.disabled = false
-        button.textContent = "Cancel"
-        alert("An error occurred while canceling the booking.")
+        button.textContent = "Anuluj"
+        alert("Wystąpił błąd podczas anulowania rezerwacji.")
       })
     }
   }
@@ -313,6 +297,63 @@ export default class extends Controller {
     if (btn) {
       const object = JSON.parse(btn.dataset.object)
       console.table(object)
+    }
+  }
+
+  filterAndShowCityDropdown(searchTerm) {
+    const cityMenu = this.cityMenuTarget
+    const items = cityMenu.querySelectorAll('.dropdown-item')
+    let hasVisibleItems = false
+
+    console.log(`[City Dropdown] Filtering for: "${searchTerm}", found ${items.length} items`)
+
+    items.forEach(item => {
+      const cityName = item.textContent.toLowerCase().trim()
+      const matches = searchTerm === '' || cityName.includes(searchTerm)
+
+      if (matches) {
+        item.closest('li').style.display = ''
+        hasVisibleItems = true
+      } else {
+        item.closest('li').style.display = 'none'
+      }
+    })
+
+    console.log(`[City Dropdown] Has visible items: ${hasVisibleItems}`)
+
+    if (hasVisibleItems) {
+      cityMenu.classList.remove('hidden')
+    } else {
+      cityMenu.classList.add('hidden')
+    }
+  }
+
+  filterAndShowClubDropdown(searchTerm) {
+    const clubMenu = this.clubMenuTarget
+    let hasVisibleItems = false
+
+    // Get currently selected city to filter clubs
+    const selectedCityItem = this.cityMenuTarget.querySelector('.dropdown-item[data-selected="true"]')
+    const selectedCity = selectedCityItem?.dataset.value
+
+    clubMenu.querySelectorAll('.dropdown-item').forEach(item => {
+      const clubName = item.textContent.toLowerCase()
+      const clubCity = item.dataset.city
+      const matchesSearch = searchTerm === '' || clubName.includes(searchTerm)
+      const matchesCity = !selectedCity || clubCity === selectedCity
+
+      if (matchesSearch && matchesCity) {
+        item.closest('li').style.display = ''
+        hasVisibleItems = true
+      } else {
+        item.closest('li').style.display = 'none'
+      }
+    })
+
+    if (hasVisibleItems) {
+      clubMenu.classList.remove('hidden')
+    } else {
+      clubMenu.classList.add('hidden')
     }
   }
 }

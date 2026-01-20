@@ -31,23 +31,23 @@ class ZdrofitClassBooking < ApplicationRecord
     booking_time.in_time_zone("Europe/Warsaw")
   end
 
-  # Returns a human-readable countdown to booking time
+  # Returns a human-readable countdown to booking time (in Polish)
   def time_until_booking
-    return "Booking window passed" if booking_time.past?
+    return "Okno rezerwacji minęło" if booking_time.past?
 
     seconds = (booking_time - Time.current).to_i
-    return "Less than a minute" if seconds < 60
+    return "Mniej niż minuta" if seconds < 60
 
     days = seconds / 86400
     hours = (seconds % 86400) / 3600
     minutes = (seconds % 3600) / 60
 
     parts = []
-    parts << "#{days} day#{'s' if days != 1}" if days > 0
-    parts << "#{hours} hour#{'s' if hours != 1}" if hours > 0
-    parts << "#{minutes} minute#{'s' if minutes != 1}" if minutes > 0 && days == 0
+    parts << pluralize_polish(days, "dzień", "dni", "dni") if days > 0
+    parts << pluralize_polish(hours, "godzina", "godziny", "godzin") if hours > 0
+    parts << pluralize_polish(minutes, "minuta", "minuty", "minut") if minutes > 0 && days == 0
 
-    "in #{parts.join(', ')}"
+    "za #{parts.join(', ')}"
   end
 
   def available_seats_count
@@ -59,6 +59,16 @@ class ZdrofitClassBooking < ApplicationRecord
   after_create :book_class
 
   private
+
+  def pluralize_polish(count, one, few, many)
+    if count == 1
+      "#{count} #{one}"
+    elsif count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20)
+      "#{count} #{few}"
+    else
+      "#{count} #{many}"
+    end
+  end
 
   def book_class
     if booking_time.past?
