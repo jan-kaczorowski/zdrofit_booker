@@ -91,8 +91,11 @@ export default class extends Controller {
   }
 
   closeAllDropdowns() {
+    console.log('[Dashboard] closeAllDropdowns called')
+    console.trace()  // Show call stack
     document.querySelectorAll('.dropdown-menu').forEach(menu => {
       menu.classList.add('hidden')
+      menu.style.display = ''
     })
   }
 
@@ -304,8 +307,12 @@ export default class extends Controller {
     const cityMenu = this.cityMenuTarget
     const items = cityMenu.querySelectorAll('.dropdown-item')
     let hasVisibleItems = false
+    let visibleCount = 0
+    let hiddenCount = 0
 
-    console.log(`[City Dropdown] Filtering for: "${searchTerm}", found ${items.length} items`)
+    console.log(`[City Dropdown] Filtering for: "${searchTerm}", total ${items.length} items`)
+    console.log(`[City Dropdown] Menu element:`, cityMenu)
+    console.log(`[City Dropdown] Menu classes before:`, cityMenu.className)
 
     items.forEach(item => {
       const cityName = item.textContent.toLowerCase().trim()
@@ -314,23 +321,29 @@ export default class extends Controller {
       if (matches) {
         item.closest('li').style.display = ''
         hasVisibleItems = true
+        visibleCount++
       } else {
         item.closest('li').style.display = 'none'
+        hiddenCount++
       }
     })
 
-    console.log(`[City Dropdown] Has visible items: ${hasVisibleItems}`)
+    console.log(`[City Dropdown] Visible: ${visibleCount}, Hidden: ${hiddenCount}`)
 
     if (hasVisibleItems) {
       cityMenu.classList.remove('hidden')
+      cityMenu.style.display = 'block'  // Force display to override any CSS
+      console.log(`[City Dropdown] Menu should now be visible. Computed display:`, window.getComputedStyle(cityMenu).display)
     } else {
       cityMenu.classList.add('hidden')
+      cityMenu.style.display = ''
     }
   }
 
   filterAndShowClubDropdown(searchTerm) {
     const clubMenu = this.clubMenuTarget
     let hasVisibleItems = false
+    let visibleCount = 0
 
     // Get currently selected city to filter clubs
     const selectedCityItem = this.cityMenuTarget.querySelector('.dropdown-item[data-selected="true"]')
@@ -345,15 +358,20 @@ export default class extends Controller {
       if (matchesSearch && matchesCity) {
         item.closest('li').style.display = ''
         hasVisibleItems = true
+        visibleCount++
       } else {
         item.closest('li').style.display = 'none'
       }
     })
 
+    console.log(`[Club Dropdown] Visible: ${visibleCount}, Selected city: ${selectedCity || 'none'}`)
+
     if (hasVisibleItems) {
       clubMenu.classList.remove('hidden')
+      clubMenu.style.display = 'block'  // Force display
     } else {
       clubMenu.classList.add('hidden')
+      clubMenu.style.display = ''
     }
   }
 }
