@@ -1,4 +1,22 @@
 class ClassBooker
+  class TransientError < StandardError; end
+
+  TRANSIENT_PATTERNS = [
+    /SSL_read/i,
+    /Failed to open TCP connection/i,
+    /execution expired/i,
+    /Connection reset by peer/i,
+    /Connection refused/i,
+    /Net::OpenTimeout/i,
+    /Net::ReadTimeout/i,
+    /SocketError/i,
+    /ECONNREFUSED/i,
+    /ETIMEDOUT/i,
+    /ECONNRESET/i,
+    /unexpected eof/i,
+    /end of file reached/i
+  ].freeze
+
   def initialize(booking)
     @booking = booking
     @user = booking.zdrofit_user
@@ -20,7 +38,18 @@ class ClassBooker
       ClassBookerJob.set(wait_until: 30.minutes.from_now).perform_later(@booking.id)
     end
   rescue => e
-    @booking.update!(status: "failed", debug_info: e.message)
-    raise e
+    if transient_error?(e)
+      @booking.update!(debug_info: "transient: #{e.message}")
+      raise TransientError, e.message
+    else
+      @booking.update!(status: "failed", debug_info: e.message)
+      raise e
+    end
+  end
+
+  private
+
+  def transient_error?(error)
+    TRANSIENT_PATTERNS.any? { |pattern| error.message.match?(pattern) }
   end
 end
