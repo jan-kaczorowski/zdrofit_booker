@@ -73,8 +73,8 @@ class ZdrofitClassBooking < ApplicationRecord
   def book_class
     if booking_time.past?
       ClassBookerJob.perform_later(id)
-    elsif available_seats_count < 1
-      ClassBookerJob.wait_until(30.minutes.from_now).perform_later(id)
+    elsif available_seats_count.to_i < 1
+      ClassBookerJob.set(wait_until: 30.minutes.from_now).perform_later(id)
     else
       ClassBookerJob.set(wait_until: booking_time).perform_later(id)
     end

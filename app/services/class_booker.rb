@@ -28,9 +28,12 @@ class ClassBooker
   end
 
   def call
-    return unless @booking.next_occurrence_utc > 2.hours.from_now
+    unless @booking.next_occurrence_utc > 2.hours.from_now
+      @booking.update!(status: "failed", debug_info: "Nie udało się zarezerwować - lista zamrożona (<2h do zajęć)")
+      return
+    end
 
-    if @booking.available_seats_count.positive?
+    if @booking.available_seats_count.to_i.positive?
       @zdrofit_api_client.book_class(class_id: @booking.class_id, club_id: @booking.club_id)
       @booking.update!(status: "booked", next_occurrence: @booking.next_occurrence + 1.week)
       ClassBookerJob.set(wait_until: @booking.booking_time).perform_later(@booking.id)
