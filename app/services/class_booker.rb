@@ -42,6 +42,7 @@ class ClassBooker
     end
   rescue => e
     if transient_error?(e)
+      ZdrofitClient.rotate_proxy
       @booking.update!(debug_info: "transient: #{e.message}")
       raise TransientError, e.message
     else
