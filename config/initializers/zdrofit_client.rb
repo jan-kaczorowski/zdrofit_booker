@@ -1,1 +1,5 @@
-ZdrofitClient.configure_proxy(ENV["ZDROFIT_PROXY_URL"], ENV["ZDROFIT_FALLBACK_PROXY_URL"])
+ZdrofitClient.configure_proxy(
+  ENV["ZDROFIT_PROXY_URL"],
+  ENV["ZDROFIT_FALLBACK_PROXY_URL"],
+  ENV["ZDROFIT_BACKUP_PROXY_URL"]
+)
