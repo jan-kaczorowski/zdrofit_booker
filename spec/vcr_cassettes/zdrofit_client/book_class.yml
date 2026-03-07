@@ -1,0 +1,272 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://zdrofit.perfectgym.pl/ClientPortal2/Auth/Login
+    body:
+      encoding: UTF-8
+      string: '{"RememberMe":false,"Login":"<EMAIL>","Password":"<PASSWORD>"}'
+    headers:
+      Accept:
+      - application/json, text/plain, */*
+      Accept-Language:
+      - pl
+      Cp-Lang:
+      - pl
+      Cp-Mode:
+      - desktop
+      Content-Type:
+      - application/json
+      Origin:
+      - https://zdrofit.perfectgym.pl
+      Referer:
+      - https://zdrofit.perfectgym.pl/ClientPortal2/
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/132.0.0.0 Safari/537.36
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - private
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Set-Cookie:
+      - CpAuthToken=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJNYXN0ZXJDb21wYW55IjoiemRyb2ZpdCIsIkF1dGhlbnRpY2F0aW9uVHlwZSI6IlBhc3N3b3JkIiwiVXNlcklkIjoiNjc4ODM2IiwiZXhwIjoxNzY4ODkwNDMxLCJpc3MiOiJwZXJmZWN0Z3ltLmNvbSIsImF1ZCI6InBlcmZlY3RneW0uY29tIn0.p07jhZf5jquUHIpdVK0hgIIK4vJwstBHPRvZ2xUM-Gs;
+        expires=Tue, 20-Jan-2026 06:27:11 GMT; path=/; secure; HttpOnly; SameSite=Lax
+      Pg-Environment:
+      - Production
+      Pg-Application:
+      - ClientPortal2
+      Pg-Version:
+      - 4.930.2147.112
+      Pg-Timestamp:
+      - '2026-01-19T22:27:11.3823532Z'
+      Pg-Correlation-Id:
+      - UTC2026-01-19_22-27_6273a400-6b01-4e98-95a0-3ba2f9298571
+      Pg-Company:
+      - zdrofit
+      Content-Security-Policy:
+      - frame-ancestors 'self';report-uri https://zdrofit.perfectgym.pl/ClientPortal2/security/csp-report
+      Jwt-Token:
+      - eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJNYXN0ZXJDb21wYW55IjoiemRyb2ZpdCIsIkF1dGhlbnRpY2F0aW9uVHlwZSI6IlBhc3N3b3JkIiwiVXNlcklkIjoiNjc4ODM2IiwiZXhwIjoxNzY4ODkwNDMxLCJpc3MiOiJwZXJmZWN0Z3ltLmNvbSIsImF1ZCI6InBlcmZlY3RneW0uY29tIn0.p07jhZf5jquUHIpdVK0hgIIK4vJwstBHPRvZ2xUM-Gs
+      Jwt-Token-Remember:
+      - 'False'
+      Pg-Request-Time:
+      - '00:00:00.2040445'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 19 Jan 2026 22:27:10 GMT
+      Content-Length:
+      - '820'
+    body:
+      encoding: UTF-8
+      string: '{"User":{"Member":{"Id":678836,"UserNumber":"425003207","FirstName":"Jan","LastName":"Kaczorowski","Email":"<EMAIL>","PhotoUrl":"https://pgplstoragev2.perfectgymcdn.com/zdrofit/filestorage7de70228556f455f8649e6ad8e766678?sv=2025-05-05&st=2026-01-19T22%3A22%3A11Z&se=2026-01-19T22%3A32%3A11Z&sr=b&sp=r&rscd=inline%3Bfilename%3D%22UserPicture-678836-ClubPhoto-Small.jpg%22%3B&sig=0RhWz6COUCVglj6CYx3JK%2BKQKGsrBUfHOx4E8uethY8%3D","HomeClubId":25,"DefaultClubId":25,"Type":"ClubMember","IsGuest":false,"IsFamilyChild":false,"NotificationsData":{"CanUpdateFromTrial":false,"HasInvalidContractPaymentMethod":false,"HasFingerprintAssigned":false,"RemainingDeposit":0.0,"ContractStatus":"Current","HasMemberCardAssigned":true,"DoesUserHaveAnyPin":false}},"Employee":null,"Roles":["Member"]},"State":"Classes"}'
+  recorded_at: Mon, 19 Jan 2026 22:27:11 GMT
+- request:
+    method: post
+    uri: https://zdrofit.perfectgym.pl/ClientPortal2/Classes/ClassCalendar/BookClass
+    body:
+      encoding: UTF-8
+      string: '{"classId":801539,"clubId":"77"}'
+    headers:
+      Accept:
+      - application/json, text/plain, */*
+      Accept-Language:
+      - pl
+      Cp-Lang:
+      - pl
+      Cp-Mode:
+      - desktop
+      Content-Type:
+      - application/json
+      Origin:
+      - https://zdrofit.perfectgym.pl
+      Referer:
+      - https://zdrofit.perfectgym.pl/ClientPortal2/
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/132.0.0.0 Safari/537.36
+      Authorization:
+      - Bearer <AUTH_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 499
+      message: ''
+    headers:
+      Cache-Control:
+      - private, s-maxage=0
+      Content-Type:
+      - text/plain; charset=utf-8
+      Pg-Environment:
+      - Production
+      Pg-Application:
+      - ClientPortal2
+      Pg-Version:
+      - 4.930.2147.112
+      Pg-Timestamp:
+      - '2026-01-19T22:27:11.7481449Z'
+      Pg-Correlation-Id:
+      - UTC2026-01-19_22-27_29871a37-f73c-49ed-8c62-1b708b2e7d31
+      Pg-Company:
+      - zdrofit
+      Content-Security-Policy:
+      - frame-ancestors 'self';report-uri https://zdrofit.perfectgym.pl/ClientPortal2/security/csp-report
+      Pg-Request-Time:
+      - '00:00:00.0631833'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 19 Jan 2026 22:27:10 GMT
+      Content-Length:
+      - '87'
+    body:
+      encoding: UTF-8
+      string: Error occured. CorrelationId:"UTC2026-01-19_22-27_4033ba1f-5383-498f-9af1-4e2acc04391b"
+  recorded_at: Mon, 19 Jan 2026 22:27:11 GMT
+- request:
+    method: post
+    uri: https://zdrofit.perfectgym.pl/ClientPortal2/Classes/ClassCalendar/BookClass
+    body:
+      encoding: UTF-8
+      string: '{"classId":801539,"clubId":"77"}'
+    headers:
+      Accept:
+      - application/json, text/plain, */*
+      Accept-Language:
+      - pl
+      Cp-Lang:
+      - pl
+      Cp-Mode:
+      - desktop
+      Content-Type:
+      - application/json
+      Origin:
+      - https://zdrofit.perfectgym.pl
+      Referer:
+      - https://zdrofit.perfectgym.pl/ClientPortal2/
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/132.0.0.0 Safari/537.36
+      Authorization:
+      - Bearer <AUTH_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 499
+      message: ''
+    headers:
+      Cache-Control:
+      - private, s-maxage=0
+      Content-Type:
+      - text/plain; charset=utf-8
+      Pg-Environment:
+      - Production
+      Pg-Application:
+      - ClientPortal2
+      Pg-Version:
+      - 4.930.2147.112
+      Pg-Timestamp:
+      - '2026-01-19T22:27:13.0978371Z'
+      Pg-Correlation-Id:
+      - UTC2026-01-19_22-27_0b04745e-3c51-4026-aadf-05ee654ca024
+      Pg-Company:
+      - zdrofit
+      Content-Security-Policy:
+      - frame-ancestors 'self';report-uri https://zdrofit.perfectgym.pl/ClientPortal2/security/csp-report
+      Pg-Request-Time:
+      - '00:00:00.0497460'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 19 Jan 2026 22:27:12 GMT
+      Content-Length:
+      - '87'
+    body:
+      encoding: UTF-8
+      string: Error occured. CorrelationId:"UTC2026-01-19_22-27_751f1dd5-96a1-4282-be0f-38ad73ba0e41"
+  recorded_at: Mon, 19 Jan 2026 22:27:13 GMT
+- request:
+    method: post
+    uri: https://zdrofit.perfectgym.pl/ClientPortal2/Classes/ClassCalendar/BookClass
+    body:
+      encoding: UTF-8
+      string: '{"classId":801539,"clubId":"77"}'
+    headers:
+      Accept:
+      - application/json, text/plain, */*
+      Accept-Language:
+      - pl
+      Cp-Lang:
+      - pl
+      Cp-Mode:
+      - desktop
+      Content-Type:
+      - application/json
+      Origin:
+      - https://zdrofit.perfectgym.pl
+      Referer:
+      - https://zdrofit.perfectgym.pl/ClientPortal2/
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/132.0.0.0 Safari/537.36
+      Authorization:
+      - Bearer <AUTH_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 499
+      message: ''
+    headers:
+      Cache-Control:
+      - private, s-maxage=0
+      Content-Type:
+      - text/plain; charset=utf-8
+      Pg-Environment:
+      - Production
+      Pg-Application:
+      - ClientPortal2
+      Pg-Version:
+      - 4.930.2147.112
+      Pg-Timestamp:
+      - '2026-01-19T22:27:15.4221269Z'
+      Pg-Correlation-Id:
+      - UTC2026-01-19_22-27_69e913a5-9a8d-4a15-87f7-28b93e746173
+      Pg-Company:
+      - zdrofit
+      Content-Security-Policy:
+      - frame-ancestors 'self';report-uri https://zdrofit.perfectgym.pl/ClientPortal2/security/csp-report
+      Pg-Request-Time:
+      - '00:00:00.0428657'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 19 Jan 2026 22:27:14 GMT
+      Content-Length:
+      - '87'
+    body:
+      encoding: UTF-8
+      string: Error occured. CorrelationId:"UTC2026-01-19_22-27_290ea8fa-0dae-428f-8d26-b9d24eefcf4c"
+  recorded_at: Mon, 19 Jan 2026 22:27:15 GMT
+recorded_with: VCR 6.3.1

@@ -10,20 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_19_202339) do
-  create_table "zdrofit_class_bookings", force: :cascade do |t|
+ActiveRecord::Schema[8.0].define(version: 2026_03_07_120001) do
+  create_table "booking_events", force: :cascade do |t|
+    t.integer "booking_id", null: false
+    t.datetime "occurrence", null: false
+    t.string "status", default: "pending", null: false
+    t.string "debug_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_booking_events_on_booking_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
     t.integer "class_id"
     t.integer "club_id"
-    t.datetime "next_occurrence"
     t.integer "zdrofit_user_id", null: false
-    t.string "status", default: "pending"
-    t.string "mode"
     t.string "class_name"
     t.string "trainer_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "debug_info"
-    t.index ["zdrofit_user_id"], name: "index_zdrofit_class_bookings_on_zdrofit_user_id"
+    t.index ["zdrofit_user_id"], name: "index_bookings_on_zdrofit_user_id"
   end
 
   create_table "zdrofit_users", force: :cascade do |t|
@@ -37,5 +43,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_19_202339) do
     t.datetime "auth_token_expires_at"
   end
 
-  add_foreign_key "zdrofit_class_bookings", "zdrofit_users"
+  add_foreign_key "booking_events", "bookings"
+  add_foreign_key "bookings", "zdrofit_users"
 end

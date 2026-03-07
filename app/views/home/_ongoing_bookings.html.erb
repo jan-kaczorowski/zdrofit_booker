@@ -2,6 +2,7 @@
   <div class="space-y-4">
     <% if pending_bookings.any? %>
       <% pending_bookings.each do |booking| %>
+        <% event = booking.current_event %>
         <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
           <div class="flex items-start justify-between">
             <div class="flex-1">
@@ -13,12 +14,18 @@
               <div class="mt-3 space-y-1.5 text-sm text-gray-600">
                 <div class="flex items-center gap-2">
                   <span>📅</span>
-                  <span><%= I18n.l(booking.next_occurrence_in_warsaw, format: "%A, %d %b o %H:%M") %></span>
+                  <span><%= I18n.l(event.occurrence_in_warsaw, format: "%A, %d %b o %H:%M") %></span>
                 </div>
                 <div class="flex items-center gap-2">
                   <span>👤</span>
                   <span>Trener: <%= booking.trainer_name&.upcase || "TBA" %></span>
                 </div>
+                <% if booking.last_booked_event %>
+                  <div class="flex items-center gap-2">
+                    <span>✅</span>
+                    <span class="text-green-600">Zarezerwowano: <%= I18n.l(booking.last_booked_event.occurrence_in_warsaw, format: "%A, %d %b o %H:%M") %></span>
+                  </div>
+                <% end %>
               </div>
 
               <div class="mt-3 p-2 bg-indigo-50 rounded-md">
@@ -26,12 +33,12 @@
                   <span>🎯</span>
                   <span class="text-indigo-700">
                     Rezerwacja zaplanowana na:
-                    <strong><%= I18n.l(booking.booking_time_in_warsaw, format: "%a, %d %b o %H:%M:%S") %></strong>
+                    <strong><%= I18n.l(event.booking_time_in_warsaw, format: "%a, %d %b o %H:%M:%S") %></strong>
                   </span>
                 </div>
                 <div class="flex items-center gap-2 text-sm mt-1">
                   <span>⏱️</span>
-                  <span class="text-indigo-600 font-medium"><%= booking.time_until_booking %></span>
+                  <span class="text-indigo-600 font-medium"><%= event.time_until_booking %></span>
                 </div>
               </div>
             </div>
@@ -62,6 +69,7 @@
         </summary>
         <div class="mt-2 space-y-2">
           <% failed_bookings.each do |booking| %>
+            <% failed_event = booking.latest_failed_event %>
             <div class="bg-red-50 border border-red-200 rounded-lg p-3">
               <div class="flex items-start justify-between">
                 <div>
@@ -70,12 +78,14 @@
                     <h4 class="font-medium text-gray-900"><%= booking.class_name %></h4>
                   </div>
                   <div class="mt-1 text-sm text-gray-600">
-                    <span><%= I18n.l(booking.next_occurrence, format: "%a, %d %b o %H:%M") %></span>
-                    <span class="mx-1">·</span>
+                    <% if failed_event %>
+                      <span><%= I18n.l(failed_event.occurrence_in_warsaw, format: "%a, %d %b o %H:%M") %></span>
+                      <span class="mx-1">·</span>
+                    <% end %>
                     <span><%= booking.trainer_name&.upcase %></span>
                   </div>
-                  <% if booking.debug_info.present? %>
-                    <div class="mt-1 text-xs text-red-600"><%= booking.debug_info %></div>
+                  <% if failed_event&.debug_info.present? %>
+                    <div class="mt-1 text-xs text-red-600"><%= failed_event.debug_info %></div>
                   <% end %>
                 </div>
                 <button

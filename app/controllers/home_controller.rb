@@ -30,17 +30,9 @@ class HomeController < ApplicationController
   end
 
   def ongoing_bookings
-    # Only pending bookings with future class times
-    @pending_bookings = ZdrofitClassBooking
-      .where(zdrofit_user: @user, status: "pending")
-      .where("next_occurrence > ?", Time.current)
-      .order(:next_occurrence)
-
-    # Failed bookings (separate, for collapsed section)
-    @failed_bookings = ZdrofitClassBooking
-      .where(zdrofit_user: @user, status: "failed")
-      .order(created_at: :desc)
-      .limit(10)
+    all_bookings = @user.bookings.includes(:booking_events).to_a
+    @pending_bookings = all_bookings.select(&:active?).sort_by { |b| b.current_event.occurrence }
+    @failed_bookings = all_bookings.reject(&:active?).select(&:failed?)
 
     # If it's a Turbo Frame request, render the partial
     if turbo_frame_request?
@@ -62,7 +54,7 @@ class HomeController < ApplicationController
   end
 
   def cancel_booking
-    booking = ZdrofitClassBooking.find_by(id: params[:id], zdrofit_user: @user)
+    booking = Booking.find_by(id: params[:id], zdrofit_user: @user)
 
     if booking&.destroy
       render json: { success: true }
@@ -75,8 +67,7 @@ class HomeController < ApplicationController
 
   def weekly_classes
     if params[:club_id]
-      @bookings = ZdrofitClassBooking.where(zdrofit_user: @user, club_id: params[:club_id], status: "pending")
-                                     .select(:id, :class_id, :next_occurrence)
+      already_booked_class_ids = @user.bookings.where(club_id: params[:club_id]).pluck(:class_id)
       client = @user.zdrofit_api_client
       @classes = client.list_weekly_classes(
         club_id: params[:club_id],
@@ -113,10 +104,9 @@ class HomeController < ApplicationController
         DateTime.parse(cl["StartTime"]).to_date
       end
 
-      # Mark classes that already have pending bookings
+      # Mark classes that already have bookings
       @classes.each do |cl|
-        match = @bookings.find { |b| b.class_id == cl["Id"] && b.next_occurrence == DateTime.parse(cl["StartTime"]) }
-        cl["BookingId"] = match&.id
+        cl["BookingId"] = already_booked_class_ids.include?(cl["Id"]) ? true : nil
       end
 
       # Default to first day with classes or today
@@ -126,7 +116,7 @@ class HomeController < ApplicationController
         @next_5_days.first[:date]
       end
     else
-      @bookings, @classes, @classes_by_date, @next_5_days = [], [], {}, []
+      @classes, @classes_by_date, @next_5_days = [], {}, []
       @selected_date = Date.current
     end
 
@@ -153,16 +143,13 @@ class HomeController < ApplicationController
 
   def book
     begin
-      # Create booking record with next_occurrence
-      ZdrofitClassBooking.create!(
-        zdrofit_user: @user,
-        status: "pending",
+      booking = @user.bookings.create!(
         class_id: params[:class_id],
         club_id: params[:club_id],
-        next_occurrence: params[:next_occurrence],
         class_name: params[:class_name],
         trainer_name: params[:trainer_name]
       )
+      booking.booking_events.create!(occurrence: params[:next_occurrence])
 
       render json: { success: true }
     rescue => e

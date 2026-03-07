@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://zdrofit.perfectgym.pl/ClientPortal2/Auth/Login
+    body:
+      encoding: UTF-8
+      string: '{"RememberMe":false,"Login":"<EMAIL>","Password":"<PASSWORD>"}'
+    headers:
+      Accept:
+      - application/json, text/plain, */*
+      Accept-Language:
+      - pl
+      Cp-Lang:
+      - pl
+      Cp-Mode:
+      - desktop
+      Content-Type:
+      - application/json
+      Origin:
+      - https://zdrofit.perfectgym.pl
+      Referer:
+      - https://zdrofit.perfectgym.pl/ClientPortal2/
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/132.0.0.0 Safari/537.36
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - private
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Set-Cookie:
+      - CpAuthToken=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJNYXN0ZXJDb21wYW55IjoiemRyb2ZpdCIsIkF1dGhlbnRpY2F0aW9uVHlwZSI6IlBhc3N3b3JkIiwiVXNlcklkIjoiNjc4ODM2IiwiZXhwIjoxNzY4ODkwNDI5LCJpc3MiOiJwZXJmZWN0Z3ltLmNvbSIsImF1ZCI6InBlcmZlY3RneW0uY29tIn0.gOndR_uSf-nvqeNViwsQBsQDBuQsU5-3QK5UIRWTUHI;
+        expires=Tue, 20-Jan-2026 06:27:09 GMT; path=/; secure; HttpOnly; SameSite=Lax
+      Pg-Environment:
+      - Production
+      Pg-Application:
+      - ClientPortal2
+      Pg-Version:
+      - 4.930.2147.112
+      Pg-Timestamp:
+      - '2026-01-19T22:27:09.5387097Z'
+      Pg-Correlation-Id:
+      - UTC2026-01-19_22-27_d9883f60-5457-47e5-89a6-5c4e2f46b2c6
+      Pg-Company:
+      - zdrofit
+      Content-Security-Policy:
+      - frame-ancestors 'self';report-uri https://zdrofit.perfectgym.pl/ClientPortal2/security/csp-report
+      Jwt-Token:
+      - eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJNYXN0ZXJDb21wYW55IjoiemRyb2ZpdCIsIkF1dGhlbnRpY2F0aW9uVHlwZSI6IlBhc3N3b3JkIiwiVXNlcklkIjoiNjc4ODM2IiwiZXhwIjoxNzY4ODkwNDI5LCJpc3MiOiJwZXJmZWN0Z3ltLmNvbSIsImF1ZCI6InBlcmZlY3RneW0uY29tIn0.gOndR_uSf-nvqeNViwsQBsQDBuQsU5-3QK5UIRWTUHI
+      Jwt-Token-Remember:
+      - 'False'
+      Pg-Request-Time:
+      - '00:00:00.1937596'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Mon, 19 Jan 2026 22:27:08 GMT
+      Content-Length:
+      - '824'
+    body:
+      encoding: UTF-8
+      string: '{"User":{"Member":{"Id":678836,"UserNumber":"425003207","FirstName":"Jan","LastName":"Kaczorowski","Email":"<EMAIL>","PhotoUrl":"https://pgplstoragev2.perfectgymcdn.com/zdrofit/filestorage7de70228556f455f8649e6ad8e766678?sv=2025-05-05&st=2026-01-19T22%3A22%3A09Z&se=2026-01-19T22%3A32%3A09Z&sr=b&sp=r&rscd=inline%3Bfilename%3D%22UserPicture-678836-ClubPhoto-Small.jpg%22%3B&sig=rCL%2BYNzVLCXEfjCyxtNP4RJd7msSF4QCaKSZ%2B%2BzUP0I%3D","HomeClubId":25,"DefaultClubId":25,"Type":"ClubMember","IsGuest":false,"IsFamilyChild":false,"NotificationsData":{"CanUpdateFromTrial":false,"HasInvalidContractPaymentMethod":false,"HasFingerprintAssigned":false,"RemainingDeposit":0.0,"ContractStatus":"Current","HasMemberCardAssigned":true,"DoesUserHaveAnyPin":false}},"Employee":null,"Roles":["Member"]},"State":"Classes"}'
+  recorded_at: Mon, 19 Jan 2026 22:27:09 GMT
+recorded_with: VCR 6.3.1

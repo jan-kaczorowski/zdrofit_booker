@@ -17,41 +17,48 @@ class ClassBooker
     /end of file reached/i
   ].freeze
 
-  def initialize(booking)
-    @booking = booking
-    @user = booking.zdrofit_user
+  def initialize(event)
+    @event = event
+    @booking = event.booking
+    @user = @booking.zdrofit_user
     @zdrofit_api_client = @user.zdrofit_api_client
   end
 
-  def self.call(booking)
-    new(booking).call
+  def self.call(event)
+    new(event).call
   end
 
   def call
-    unless @booking.next_occurrence_utc > 2.hours.from_now
-      @booking.update!(status: "failed", debug_info: "Nie udało się zarezerwować - lista zamrożona (<2h do zajęć)")
+    unless @event.occurrence_utc > 2.hours.from_now
+      @event.update!(status: "failed", debug_info: "Nie udało się zarezerwować - lista zamrożona (<2h do zajęć)")
       return
     end
 
-    if @booking.available_seats_count.to_i.positive?
+    if available_seats_count.positive?
       @zdrofit_api_client.book_class(class_id: @booking.class_id, club_id: @booking.club_id)
-      @booking.update!(status: "booked", next_occurrence: @booking.next_occurrence + 1.week)
-      ClassBookerJob.set(wait_until: @booking.booking_time).perform_later(@booking.id)
+      @event.update!(status: "booked")
+      @booking.booking_events.create!(occurrence: @event.occurrence + 1.week)
     else
-      ClassBookerJob.set(wait_until: 30.minutes.from_now).perform_later(@booking.id)
+      ClassBookerJob.set(wait_until: 30.minutes.from_now).perform_later(@event.id)
     end
   rescue => e
     if transient_error?(e)
       ZdrofitClient.rotate_proxy
-      @booking.update!(debug_info: "transient: #{e.message}")
+      @event.update!(debug_info: "transient: #{e.message}")
       raise TransientError, e.message
     else
-      @booking.update!(status: "failed", debug_info: e.message)
+      @event.update!(status: "failed", debug_info: e.message)
       raise e
     end
   end
 
   private
+
+  def available_seats_count
+    @zdrofit_api_client
+      .get_class_details(class_id: @booking.class_id)
+      .dig("BookingIndicator", "Available")&.to_i || 0
+  end
 
   def transient_error?(error)
     TRANSIENT_PATTERNS.any? { |pattern| error.message.match?(pattern) }

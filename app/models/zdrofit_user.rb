@@ -3,7 +3,7 @@ class ZdrofitUser < ApplicationRecord
   encrypts :pass, deterministic: true
   encrypts :auth_token
 
-  has_many :zdrofit_class_bookings
+  has_many :bookings
 
   # Token validity buffer (refresh 30 min before actual expiry)
   TOKEN_REFRESH_BUFFER = 30.minutes
