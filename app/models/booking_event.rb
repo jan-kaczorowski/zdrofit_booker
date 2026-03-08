@@ -22,9 +22,9 @@ class BookingEvent < ApplicationRecord
 
   # Returns the time when the booking job should run
   # Booking opens exactly 2 days before class at the same Warsaw time
-  # Add 10 seconds buffer to ensure the booking API is ready
+  # Add 5 seconds buffer to ensure the booking API is ready
   def booking_time
-    (occurrence_in_warsaw - 2.days + 10.seconds).utc
+    (occurrence_in_warsaw - 2.days + 5.seconds).utc
   end
 
   def booking_time_in_warsaw

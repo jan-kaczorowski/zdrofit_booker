@@ -10,16 +10,16 @@ RSpec.describe BookingEvent, type: :model do
     context 'winter time (UTC+1)' do
       let(:event) { build(:booking_event, occurrence: DateTime.new(2026, 1, 20, 18, 30, 0)) }
 
-      it 'schedules 2 days before at 18:30:10 Warsaw (17:30:10 UTC)' do
-        expect(event.booking_time).to eq(Time.utc(2026, 1, 18, 17, 30, 10))
+      it 'schedules 2 days before at 18:30:05 Warsaw (17:30:05 UTC)' do
+        expect(event.booking_time).to eq(Time.utc(2026, 1, 18, 17, 30, 5))
       end
     end
 
     context 'summer time (UTC+2)' do
       let(:event) { build(:booking_event, occurrence: DateTime.new(2026, 7, 20, 18, 30, 0)) }
 
-      it 'schedules with DST offset (16:30:10 UTC)' do
-        expect(event.booking_time).to eq(Time.utc(2026, 7, 18, 16, 30, 10))
+      it 'schedules with DST offset (16:30:05 UTC)' do
+        expect(event.booking_time).to eq(Time.utc(2026, 7, 18, 16, 30, 5))
       end
     end
   end
@@ -61,14 +61,14 @@ RSpec.describe BookingEvent, type: :model do
     end
 
     it 'returns less than a minute when under 60 seconds' do
-      # booking_time = occurrence_in_warsaw - 2.days + 10.seconds (in UTC)
+      # booking_time = occurrence_in_warsaw - 2.days + 5.seconds (in UTC)
       # Set occurrence to a fixed Warsaw-local time, then freeze clock so
       # booking_time is ~30 seconds in the future.
-      # occurrence = 2026-01-20 18:30:00 Warsaw → booking_time = 2026-01-18 17:30:10 UTC
+      # occurrence = 2026-01-20 18:30:00 Warsaw → booking_time = 2026-01-18 17:30:05 UTC
       event = build(:booking_event, occurrence: DateTime.new(2026, 1, 20, 18, 30, 0))
 
       # 30 seconds before booking_time
-      travel_to Time.utc(2026, 1, 18, 17, 29, 40) do
+      travel_to Time.utc(2026, 1, 18, 17, 29, 35) do
         expect(event.time_until_booking).to eq("Mniej niż minuta")
       end
     end

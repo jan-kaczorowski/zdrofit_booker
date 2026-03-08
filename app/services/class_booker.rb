@@ -39,7 +39,7 @@ class ClassBooker
       @event.update!(status: "booked")
       @booking.booking_events.create!(occurrence: @event.occurrence + 1.week)
     else
-      ClassBookerJob.set(wait_until: 30.minutes.from_now).perform_later(@event.id)
+      ClassBookerJob.set(wait_until: 1.hour.from_now).perform_later(@event.id)
     end
   rescue => e
     if transient_error?(e)
