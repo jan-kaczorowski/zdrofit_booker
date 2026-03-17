@@ -34,6 +34,12 @@ class ClassBooker
       return
     end
 
+    unless resolve_class_id
+      @event.update!(debug_info: "Nie znaleziono zajęć w kalendarzu, ponowna próba za 1h")
+      ClassBookerJob.set(wait_until: 1.hour.from_now).perform_later(@event.id)
+      return
+    end
+
     if available_seats_count.positive?
       @zdrofit_api_client.book_class(class_id: @booking.class_id, club_id: @booking.club_id)
       @event.update!(status: "booked")
@@ -53,6 +59,40 @@ class ClassBooker
   end
 
   private
+
+  # Resolves the correct class_id for this week's occurrence.
+  # The Zdrofit API assigns a different Id to each weekly occurrence,
+  # so we look up the current one by timetable_id + date match.
+  def resolve_class_id
+    ensure_timetable_id
+    return true unless @booking.timetable_id
+
+    classes = @zdrofit_api_client.list_weekly_classes(
+      club_id: @booking.club_id,
+      time_table_id: @booking.timetable_id
+    )
+
+    target = @event.occurrence
+    matching = classes.find do |c|
+      t = DateTime.parse(c["StartTime"])
+      t.day == target.day && t.month == target.month && t.year == target.year &&
+        t.hour == target.hour && t.min == target.min
+    end
+
+    return false unless matching
+
+    @booking.update!(class_id: matching["Id"]) if @booking.class_id != matching["Id"]
+    true
+  end
+
+  # Backfills timetable_id for bookings created before this field existed.
+  def ensure_timetable_id
+    return if @booking.timetable_id
+
+    details = @zdrofit_api_client.get_class_details(class_id: @booking.class_id)
+    timetable_id = details.dig("ClassRatingSummaryInfo", "TimeTableId")
+    @booking.update!(timetable_id: timetable_id) if timetable_id
+  end
 
   def available_seats_count
     @zdrofit_api_client

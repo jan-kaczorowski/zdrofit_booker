@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_07_120001) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_17_180000) do
   create_table "booking_events", force: :cascade do |t|
     t.integer "booking_id", null: false
     t.datetime "occurrence", null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_07_120001) do
     t.string "trainer_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "timetable_id"
     t.index ["zdrofit_user_id"], name: "index_bookings_on_zdrofit_user_id"
   end
 

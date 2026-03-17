@@ -147,7 +147,8 @@ class HomeController < ApplicationController
         class_id: params[:class_id],
         club_id: params[:club_id],
         class_name: params[:class_name],
-        trainer_name: params[:trainer_name]
+        trainer_name: params[:trainer_name],
+        timetable_id: params[:timetable_id]
       )
       booking.booking_events.create!(occurrence: params[:next_occurrence])
 

@@ -68,6 +68,7 @@
                   data-next-occurrence="<%= class_data["StartTime"] %>"
                   data-class-name="<%= class_data["Name"] %>"
                   data-trainer-name="<%= class_data["TrainerName"] || class_data["Trainer"] %>"
+                  data-timetable-id="<%= class_data["TimeTableId"] %>"
                   class="flex items-center justify-center w-10 h-10 rounded-full transition-colors
                     <%= is_booked ? 'bg-green-100 text-green-600' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200' %>"
                   <%= 'disabled' if is_booked %>

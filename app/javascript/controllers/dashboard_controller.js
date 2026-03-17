@@ -159,6 +159,7 @@ export default class extends Controller {
     const nextOccurrence = button.dataset.nextOccurrence
     const className = button.dataset.className
     const trainerName = button.dataset.trainerName
+    const timetableId = button.dataset.timetableId
 
     // If already booked, do nothing
     if (bookingId) {
@@ -179,7 +180,8 @@ export default class extends Controller {
           club_id: clubId,
           next_occurrence: nextOccurrence,
           class_name: className,
-          trainer_name: trainerName
+          trainer_name: trainerName,
+          timetable_id: timetableId
         })
       })
       .then(response => response.json())
