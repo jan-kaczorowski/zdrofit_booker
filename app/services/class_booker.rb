@@ -31,6 +31,7 @@ class ClassBooker
   def call
     unless @event.occurrence_utc > 2.hours.from_now
       @event.update!(status: "failed", debug_info: "Nie udało się zarezerwować - lista zamrożona (<2h do zajęć)")
+      schedule_next_week
       return
     end
 
@@ -43,7 +44,7 @@ class ClassBooker
     if available_seats_count.positive?
       @zdrofit_api_client.book_class(class_id: @booking.class_id, club_id: @booking.club_id)
       @event.update!(status: "booked")
-      @booking.booking_events.create!(occurrence: @event.occurrence + 1.week)
+      schedule_next_week
     else
       ClassBookerJob.set(wait_until: 1.hour.from_now).perform_later(@event.id)
     end
@@ -54,6 +55,7 @@ class ClassBooker
       raise TransientError, e.message
     else
       @event.update!(status: "failed", debug_info: e.message)
+      schedule_next_week
       raise e
     end
   end
@@ -98,6 +100,10 @@ class ClassBooker
     @zdrofit_api_client
       .get_class_details(class_id: @booking.class_id)
       .dig("BookingIndicator", "Available")&.to_i || 0
+  end
+
+  def schedule_next_week
+    @booking.booking_events.create!(occurrence: @event.occurrence + 1.week)
   end
 
   def transient_error?(error)

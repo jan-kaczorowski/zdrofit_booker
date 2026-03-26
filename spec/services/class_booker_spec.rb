@@ -32,6 +32,17 @@ RSpec.describe ClassBooker do
         expect(event.status).to eq("failed")
         expect(event.debug_info).to include("zamrożona")
       end
+
+      it 'creates next week event' do
+        event # force creation before counting
+        travel_to Time.utc(2026, 3, 7, 10, 0, 0) do
+          expect { ClassBooker.call(event) }.to change(BookingEvent, :count).by(1)
+        end
+
+        next_event = booking.booking_events.order(:id).last
+        expect(next_event.occurrence).to eq(event.occurrence + 1.week)
+        expect(next_event.status).to eq("pending")
+      end
     end
 
     context 'when seats are available' do
@@ -145,6 +156,16 @@ RSpec.describe ClassBooker do
         event.reload
         expect(event.status).to eq("failed")
         expect(event.debug_info).to eq("Account suspended")
+      end
+
+      it 'creates next week event despite failure' do
+        event # force creation before counting
+        travel_to Time.utc(2026, 3, 13, 17, 0, 10) do
+          expect { ClassBooker.call(event) rescue nil }.to change(BookingEvent, :count).by(1)
+        end
+
+        next_event = booking.booking_events.order(:id).last
+        expect(next_event.occurrence).to eq(event.occurrence + 1.week)
       end
     end
   end
