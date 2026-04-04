@@ -17,12 +17,6 @@
           <% end %>
         </p>
       </div>
-      <div class="flex items-center gap-3">
-        <a href="#new-booking" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-white font-semibold text-sm hover:bg-accent-dark hover:scale-[1.02] active:scale-[0.98] transition-all shadow-glow">
-          <%= icon(:plus, css: "w-4 h-4") %>
-          Dodaj Auto-Book
-        </a>
-      </div>
     </div>
   </div>
 
@@ -72,7 +66,7 @@
               <input type="text" id="city-dropdown" placeholder="Wybierz miasto..."
                 class="w-full px-3.5 py-2.5 rounded-xl bg-surface-nested text-sm text-txt placeholder-txt-muted focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-body"
                 data-dashboard-target="cityButton"
-                data-action="focus->dashboard#showCityDropdown input->dashboard#filterCityDropdown">
+                data-action="focus->dashboard#showCityDropdown input->dashboard#filterCityDropdown keydown->dashboard#handleDropdownKeydown">
               <div class="dropdown-menu hidden" role="menu" data-dashboard-target="cityMenu">
                 <ul class="py-1">
                   <% @clubs.map { |club| club.dig('City', 'Name') }.uniq.sort.map(&:strip).each do |city| %>
@@ -91,7 +85,7 @@
               <input type="text" id="club-dropdown" placeholder="Wybierz klub..."
                 class="w-full px-3.5 py-2.5 rounded-xl bg-surface-nested text-sm text-txt placeholder-txt-muted focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-body"
                 data-dashboard-target="clubButton"
-                data-action="focus->dashboard#showClubDropdown input->dashboard#filterClubDropdown">
+                data-action="focus->dashboard#showClubDropdown input->dashboard#filterClubDropdown keydown->dashboard#handleDropdownKeydown">
               <div class="dropdown-menu hidden" role="menu" data-dashboard-target="clubMenu">
                 <ul class="py-1">
                   <% @clubs.each do |club| %>

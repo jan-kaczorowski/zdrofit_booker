@@ -1,0 +1,79 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - heading "Witaj!" [level=1] [ref=e7]
+      - paragraph [ref=e8]: Twoja podróż do szczytowej formy trwa. Mamy dla Ciebie przygotowane 4 automatyczne rezerwacje na ten tydzień.
+    - generic [ref=e9]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - heading "Twoje Rezerwacje" [level=2] [ref=e13]:
+            - img [ref=e14]
+            - text: Twoje Rezerwacje
+          - button "Automatyczne rezerwacje uruchamiają się 2 dni przed zajęciami" [ref=e22] [cursor=pointer]:
+            - img [ref=e23]
+        - generic [ref=e47]:
+          - generic [ref=e49]:
+            - img [ref=e51]
+            - generic [ref=e53]:
+              - generic [ref=e54]:
+                - heading "Crossfit Intro" [level=3] [ref=e55]
+                - generic [ref=e56]: Auto
+              - paragraph [ref=e57]: ANNA NOWAK · wtorek, 07 kwi, 18:00
+              - generic [ref=e59]:
+                - img [ref=e60]
+                - text: za 19 godzin, 19 minut
+            - button "Anuluj" [ref=e66] [cursor=pointer]:
+              - img [ref=e67]
+          - generic [ref=e71]:
+            - img [ref=e73]
+            - generic [ref=e75]:
+              - generic [ref=e76]:
+                - heading "Body Pump" [level=3] [ref=e77]
+                - generic [ref=e78]: Auto
+              - paragraph [ref=e79]: MARCIN KOWALSKI · środa, 08 kwi, 09:30
+              - generic [ref=e81]:
+                - img [ref=e82]
+                - text: za 1 dzień, 10 godzin
+            - button "Anuluj" [ref=e88] [cursor=pointer]:
+              - img [ref=e89]
+          - generic [ref=e93]:
+            - img [ref=e95]
+            - generic [ref=e97]:
+              - generic [ref=e98]:
+                - heading "Yoga Flow" [level=3] [ref=e99]
+                - generic [ref=e100]: Auto
+              - paragraph [ref=e101]: KATARZYNA WIŚNIEWSKA · czwartek, 09 kwi, 17:00
+              - generic [ref=e103]:
+                - img [ref=e104]
+                - text: za 2 dni, 18 godzin
+            - button "Anuluj" [ref=e110] [cursor=pointer]:
+              - img [ref=e111]
+          - generic [ref=e115]:
+            - img [ref=e117]
+            - generic [ref=e119]:
+              - generic [ref=e120]:
+                - heading "Pilates Core" [level=3] [ref=e121]
+                - generic [ref=e122]:
+                  - img [ref=e123]
+                  - text: Sukces
+              - paragraph [ref=e125]: EWA MAZUR · niedziela, 12 kwi, 10:00
+              - generic [ref=e127]:
+                - img [ref=e128]
+                - text: za 5 dni, 11 godzin
+            - button "Anuluj" [ref=e134] [cursor=pointer]:
+              - img [ref=e135]
+          - group [ref=e138]:
+            - generic "1 nieudane" [ref=e139] [cursor=pointer]:
+              - img [ref=e140]
+              - generic [ref=e143]: 1 nieudane
+      - generic [ref=e31]:
+        - heading "Przeglądarka Zajęć" [level=2] [ref=e32]:
+          - img [ref=e33]
+          - text: Przeglądarka Zajęć
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]: Miasto
+            - textbox "Wybierz miasto..." [active] [ref=e41]: Warszawa
+          - generic [ref=e42]:
+            - generic [ref=e43]: Klub
+            - textbox "Wybierz klub..." [ref=e45]

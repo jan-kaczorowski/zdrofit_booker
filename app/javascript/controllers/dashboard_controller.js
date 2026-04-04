@@ -4,10 +4,10 @@ export default class extends Controller {
   static targets = ["cityButton", "cityMenu", "clubButton", "clubMenu", "clubsContainer", "dayTabs", "classesContainer"]
 
   connect() {
-    console.log("Dashboard controller connected")
     this.setupDropdowns()
     this.setupSearch()
     this.currentClubId = null
+    this.highlightedIndex = -1
 
     // Handle preselected city
     const cityValue = this.cityButtonTarget.value.trim()
@@ -15,7 +15,7 @@ export default class extends Controller {
       this.handleCitySelection(cityValue)
     }
 
-    // Close dropdowns when clicking outside (with delay to allow click events to process)
+    // Close dropdowns when clicking outside
     document.addEventListener('mousedown', (e) => {
       if (!e.target.closest('.dropdown')) {
         this.closeAllDropdowns()
@@ -23,33 +23,111 @@ export default class extends Controller {
     })
 
     // Re-setup search when turbo frames load
-    document.addEventListener('turbo:frame-load', (e) => {
+    document.addEventListener('turbo:frame-load', () => {
       this.setupSearch()
     })
   }
 
   // Stimulus action: show city dropdown on focus
   showCityDropdown() {
-    console.log("[Dashboard] showCityDropdown action triggered")
+    this.activeInput = 'city'
+    this.highlightedIndex = -1
     this.filterAndShowCityDropdown('')
   }
 
   // Stimulus action: filter city dropdown on input
   filterCityDropdown(event) {
-    console.log("[Dashboard] filterCityDropdown action triggered:", event.target.value)
+    this.activeInput = 'city'
+    this.highlightedIndex = -1
     this.filterAndShowCityDropdown(event.target.value.toLowerCase())
   }
 
   // Stimulus action: show club dropdown on focus
   showClubDropdown() {
-    console.log("[Dashboard] showClubDropdown action triggered")
+    this.activeInput = 'club'
+    this.highlightedIndex = -1
     this.filterAndShowClubDropdown('')
   }
 
   // Stimulus action: filter club dropdown on input
   filterClubDropdown(event) {
-    console.log("[Dashboard] filterClubDropdown action triggered:", event.target.value)
+    this.activeInput = 'club'
+    this.highlightedIndex = -1
     this.filterAndShowClubDropdown(event.target.value.toLowerCase())
+  }
+
+  // Keyboard navigation for dropdowns
+  handleDropdownKeydown(event) {
+    const menu = this.activeInput === 'city' ? this.cityMenuTarget : this.clubMenuTarget
+    const isOpen = !menu.classList.contains('hidden')
+
+    if (!isOpen) {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault()
+        if (this.activeInput === 'city') {
+          this.showCityDropdown()
+        } else {
+          this.showClubDropdown()
+        }
+      }
+      return
+    }
+
+    const visibleItems = Array.from(menu.querySelectorAll('.dropdown-item')).filter(
+      item => item.closest('li').style.display !== 'none'
+    )
+
+    if (visibleItems.length === 0) return
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault()
+        this.highlightedIndex = Math.min(this.highlightedIndex + 1, visibleItems.length - 1)
+        this.updateHighlight(visibleItems)
+        break
+
+      case 'ArrowUp':
+        event.preventDefault()
+        this.highlightedIndex = Math.max(this.highlightedIndex - 1, 0)
+        this.updateHighlight(visibleItems)
+        break
+
+      case 'Enter':
+        event.preventDefault()
+        if (this.highlightedIndex >= 0 && this.highlightedIndex < visibleItems.length) {
+          visibleItems[this.highlightedIndex].click()
+        } else if (visibleItems.length === 1) {
+          visibleItems[0].click()
+        }
+        break
+
+      case 'Tab':
+        // Select the highlighted item or first visible item, then let tab proceed
+        if (this.highlightedIndex >= 0 && this.highlightedIndex < visibleItems.length) {
+          visibleItems[this.highlightedIndex].click()
+        } else if (visibleItems.length === 1) {
+          visibleItems[0].click()
+        }
+        // Don't prevent default — let focus move naturally
+        break
+
+      case 'Escape':
+        event.preventDefault()
+        this.closeAllDropdowns()
+        break
+    }
+  }
+
+  updateHighlight(visibleItems) {
+    // Remove previous highlight
+    visibleItems.forEach(item => item.classList.remove('dropdown-item-active'))
+
+    // Add highlight to current
+    if (this.highlightedIndex >= 0 && this.highlightedIndex < visibleItems.length) {
+      const active = visibleItems[this.highlightedIndex]
+      active.classList.add('dropdown-item-active')
+      active.scrollIntoView({ block: 'nearest' })
+    }
   }
 
   // Stimulus action: select a city from dropdown
@@ -58,8 +136,6 @@ export default class extends Controller {
     event.stopPropagation()
 
     const item = event.currentTarget
-    console.log("[Dashboard] selectCity action triggered:", item.dataset.value)
-
     this.cityMenuTarget.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
     item.setAttribute('data-selected', 'true')
 
@@ -74,8 +150,6 @@ export default class extends Controller {
     event.stopPropagation()
 
     const item = event.currentTarget
-    console.log("[Dashboard] selectClub action triggered:", item.dataset.value)
-
     this.clubMenuTarget.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
     item.setAttribute('data-selected', 'true')
 
@@ -85,17 +159,17 @@ export default class extends Controller {
   }
 
   setupDropdowns() {
-    console.log("[Dashboard] Setting up dropdowns")
-    console.log("[Dashboard] City menu has", this.cityMenuTarget.querySelectorAll('.dropdown-item').length, "items")
-    console.log("[Dashboard] Club menu has", this.clubMenuTarget.querySelectorAll('.dropdown-item').length, "items")
+    // No-op, kept for compatibility
   }
 
   closeAllDropdowns() {
-    console.log('[Dashboard] closeAllDropdowns called')
-    console.trace()  // Show call stack
+    this.highlightedIndex = -1
     document.querySelectorAll('.dropdown-menu').forEach(menu => {
       menu.classList.add('hidden')
       menu.style.display = ''
+    })
+    document.querySelectorAll('.dropdown-item-active').forEach(item => {
+      item.classList.remove('dropdown-item-active')
     })
   }
 
@@ -103,7 +177,6 @@ export default class extends Controller {
     this.clubsContainerTarget.classList.toggle('hidden', !cityValue)
     this.clubButtonTarget.value = ''
 
-    // Filter club dropdown items
     const clubItems = this.clubMenuTarget.parentElement.querySelectorAll('.dropdown-item')
     clubItems.forEach(item => {
       const showOption = !cityValue || item.dataset.city === cityValue
@@ -132,7 +205,6 @@ export default class extends Controller {
   selectDay(event) {
     const selectedDate = event.currentTarget.dataset.date
 
-    // Update tab styles
     if (this.hasDayTabsTarget) {
       this.dayTabsTarget.querySelectorAll('button').forEach(btn => {
         if (btn.dataset.date === selectedDate) {
@@ -145,7 +217,6 @@ export default class extends Controller {
       })
     }
 
-    // Reload classes for the selected date
     if (this.currentClubId) {
       this.loadClasses(this.currentClubId, selectedDate)
     }
@@ -161,10 +232,7 @@ export default class extends Controller {
     const trainerName = button.dataset.trainerName
     const timetableId = button.dataset.timetableId
 
-    // If already booked, do nothing
-    if (bookingId) {
-      return
-    }
+    if (bookingId) return
 
     if (confirm(`Zaplanować automatyczną rezerwację na ${className}?`)) {
       button.disabled = true
@@ -187,14 +255,12 @@ export default class extends Controller {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          // Update button to show booked state
           button.innerHTML = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>`
-          button.classList.remove('bg-accent-light', 'text-accent', 'hover:bg-accent-medium', 'hover:scale-[1.02]')
+          button.classList.remove('bg-accent-light', 'text-accent', 'hover:bg-accent', 'hover:text-white', 'hover:scale-[1.02]')
           button.classList.add('bg-success-light', 'text-success')
 
-          // Add "Auto-booking scheduled" text
           const parentDiv = button.closest('.class-row')
           if (parentDiv) {
             const infoDiv = parentDiv.querySelector('.text-sm.text-txt-secondary')
@@ -206,7 +272,6 @@ export default class extends Controller {
             }
           }
 
-          // Refresh the ongoing bookings frame
           this.refreshOngoingBookings()
         } else {
           alert(`Rezerwacja nie powiodła się: ${data.error}`)
@@ -240,10 +305,7 @@ export default class extends Controller {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          // Refresh the ongoing bookings frame
           this.refreshOngoingBookings()
-
-          // Refresh the weekly classes if a club is selected
           if (this.currentClubId) {
             this.loadClasses(this.currentClubId)
           }
@@ -271,50 +333,25 @@ export default class extends Controller {
 
   setupSearch() {
     const searchInput = document.getElementById('class-search')
+    if (!searchInput) return
 
-    if (!searchInput) {
-      return
-    }
-
-    // Remove existing listener to avoid duplicates
     searchInput.removeEventListener('input', this.handleSearch)
 
-    // Create bound handler
     this.handleSearch = (e) => {
       const searchTerm = e.target.value.toLowerCase()
-      const classRows = document.querySelectorAll('.class-row')
-
-      classRows.forEach(row => {
+      document.querySelectorAll('.class-row').forEach(row => {
         const className = row.dataset.className || ''
-        if (className.includes(searchTerm)) {
-          row.style.display = ''
-        } else {
-          row.style.display = 'none'
-        }
+        row.style.display = className.includes(searchTerm) ? '' : 'none'
       })
     }
 
     searchInput.addEventListener('input', this.handleSearch)
   }
 
-  showDebugInfo(e) {
-    const btn = e.target.closest('button.debug-button')
-    if (btn) {
-      const object = JSON.parse(btn.dataset.object)
-      console.table(object)
-    }
-  }
-
   filterAndShowCityDropdown(searchTerm) {
     const cityMenu = this.cityMenuTarget
     const items = cityMenu.querySelectorAll('.dropdown-item')
     let hasVisibleItems = false
-    let visibleCount = 0
-    let hiddenCount = 0
-
-    console.log(`[City Dropdown] Filtering for: "${searchTerm}", total ${items.length} items`)
-    console.log(`[City Dropdown] Menu element:`, cityMenu)
-    console.log(`[City Dropdown] Menu classes before:`, cityMenu.className)
 
     items.forEach(item => {
       const cityName = item.textContent.toLowerCase().trim()
@@ -323,19 +360,14 @@ export default class extends Controller {
       if (matches) {
         item.closest('li').style.display = ''
         hasVisibleItems = true
-        visibleCount++
       } else {
         item.closest('li').style.display = 'none'
-        hiddenCount++
       }
     })
 
-    console.log(`[City Dropdown] Visible: ${visibleCount}, Hidden: ${hiddenCount}`)
-
     if (hasVisibleItems) {
       cityMenu.classList.remove('hidden')
-      cityMenu.style.display = 'block'  // Force display to override any CSS
-      console.log(`[City Dropdown] Menu should now be visible. Computed display:`, window.getComputedStyle(cityMenu).display)
+      cityMenu.style.display = 'block'
     } else {
       cityMenu.classList.add('hidden')
       cityMenu.style.display = ''
@@ -345,9 +377,7 @@ export default class extends Controller {
   filterAndShowClubDropdown(searchTerm) {
     const clubMenu = this.clubMenuTarget
     let hasVisibleItems = false
-    let visibleCount = 0
 
-    // Get currently selected city to filter clubs
     const selectedCityItem = this.cityMenuTarget.querySelector('.dropdown-item[data-selected="true"]')
     const selectedCity = selectedCityItem?.dataset.value
 
@@ -360,17 +390,14 @@ export default class extends Controller {
       if (matchesSearch && matchesCity) {
         item.closest('li').style.display = ''
         hasVisibleItems = true
-        visibleCount++
       } else {
         item.closest('li').style.display = 'none'
       }
     })
 
-    console.log(`[Club Dropdown] Visible: ${visibleCount}, Selected city: ${selectedCity || 'none'}`)
-
     if (hasVisibleItems) {
       clubMenu.classList.remove('hidden')
-      clubMenu.style.display = 'block'  // Force display
+      clubMenu.style.display = 'block'
     } else {
       clubMenu.classList.add('hidden')
       clubMenu.style.display = ''

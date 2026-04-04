@@ -37,7 +37,8 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.dropdown-item:hover {
+.dropdown-item:hover,
+.dropdown-item-active {
   background-color: #F1F5F9;
   color: #1E293B;
 }

@@ -76,7 +76,7 @@
                   data-trainer-name="<%= class_data["TrainerName"] || class_data["Trainer"] %>"
                   data-timetable-id="<%= class_data["TimeTableId"] %>"
                   class="flex-shrink-0 transition-all
-                    <%= is_booked ? 'w-8 h-8 rounded-full bg-success-light text-success flex items-center justify-center' : 'px-3 py-1.5 rounded-full bg-accent-light text-accent text-xs font-medium hover:bg-accent-medium hover:scale-[1.02]' %>"
+                    <%= is_booked ? 'w-8 h-8 rounded-full bg-success-light text-success flex items-center justify-center' : 'px-3 py-1.5 rounded-full bg-accent-light text-accent text-xs font-medium hover:bg-accent hover:text-white hover:scale-[1.02]' %>"
                   <%= 'disabled' if is_booked %>
                 >
                   <% if is_booked %>
