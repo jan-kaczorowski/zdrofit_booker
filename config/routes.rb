@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   post "/book", to: "home#book"
   delete "/bookings/:id", to: "home#cancel_booking", as: :cancel_booking
   post "/update_location", to: "home#update_location"
+  delete "/logout", to: "home#logout", as: :logout
 end

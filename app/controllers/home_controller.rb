@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
-  before_action :authenticate_user!, except: %i[index login]
-  before_action :fetch_user, except: %i[index login]
+  before_action :authenticate_user!, except: %i[index login logout]
+  before_action :fetch_user, except: %i[index login logout]
 
   def index
   end
@@ -159,6 +159,11 @@ class HomeController < ApplicationController
     rescue => e
       render json: { success: false, error: e.message }
     end
+  end
+
+  def logout
+    session.delete(:user_id)
+    redirect_to root_path
   end
 
   def update_location
