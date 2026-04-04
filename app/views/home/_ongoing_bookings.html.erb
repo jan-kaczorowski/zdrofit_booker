@@ -3,37 +3,37 @@
     <% if pending_bookings.any? %>
       <% pending_bookings.each do |booking| %>
         <% event = booking.current_event %>
-        <div class="rounded-2xl p-4 bg-surface-container transition-all hover:bg-surface-container-high group">
+        <div class="rounded-2xl p-4 bg-surface-nested transition-all hover:bg-surface-hover group">
           <div class="flex items-start gap-3">
             <%# Circular icon %>
-            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-dim/20 flex items-center justify-center mt-0.5">
-              <%= icon(:dumbbell, css: "w-5 h-5 text-primary") %>
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-light flex items-center justify-center mt-0.5">
+              <%= icon(:dumbbell, css: "w-5 h-5 text-accent") %>
             </div>
 
             <div class="flex-1 min-w-0">
               <%# Title + status badge %>
               <div class="flex items-center gap-2 flex-wrap">
-                <h3 class="font-semibold text-on-background text-sm truncate"><%= booking.class_name %></h3>
+                <h3 class="font-semibold text-txt text-sm truncate"><%= booking.class_name %></h3>
                 <% if booking.last_booked_event %>
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 text-[10px] font-bold uppercase tracking-wider">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success-light text-success text-[10px] font-bold uppercase tracking-wider">
                     <%= icon(:check, css: "w-2.5 h-2.5") %> Sukces
                   </span>
                 <% else %>
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-dim/15 text-primary text-[10px] font-bold uppercase tracking-wider">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-light text-accent text-[10px] font-bold uppercase tracking-wider">
                     Auto
                   </span>
                 <% end %>
               </div>
 
               <%# Location + time %>
-              <p class="text-xs text-on-surface-variant/60 mt-0.5 truncate">
+              <p class="text-xs text-txt-muted mt-0.5 truncate font-body">
                 <%= booking.trainer_name&.upcase || "TBA" %> &middot; <%= I18n.l(event.occurrence_in_warsaw, format: "%A, %d %b") %>, <%= I18n.l(event.occurrence_in_warsaw, format: "%H:%M") %>
               </p>
 
               <%# Countdown badge %>
               <div class="flex items-center gap-2 mt-2">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary-dim/10 text-primary text-xs font-medium">
-                  <%= icon(:timer, css: "w-3.5 h-3.5 text-primary-dim") %>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-accent-light text-accent text-xs font-medium font-body">
+                  <%= icon(:timer, css: "w-3.5 h-3.5") %>
                   <%= event.time_until_booking %>
                 </span>
               </div>
@@ -44,7 +44,7 @@
               data-action="dashboard#cancelBooking"
               data-booking-id="<%= booking.id %>"
               data-class-name="<%= booking.class_name %>"
-              class="flex-shrink-0 opacity-0 group-hover:opacity-100 p-1.5 text-on-surface-variant/40 hover:text-error-dim hover:bg-error-dim/10 rounded-full transition-all"
+              class="flex-shrink-0 opacity-0 group-hover:opacity-100 p-1.5 text-txt-muted hover:text-danger hover:bg-danger-light rounded-full transition-all"
               title="Anuluj"
             >
               <%= icon(:x_circle, css: "w-4 h-4") %>
@@ -53,31 +53,31 @@
         </div>
       <% end %>
     <% else %>
-      <div class="text-center py-6 text-on-surface-variant/40">
+      <div class="text-center py-6 text-txt-muted">
         <%= icon(:inbox, css: "w-8 h-8 mx-auto mb-2") %>
-        <p class="text-sm">Brak rezerwacji</p>
-        <p class="text-xs mt-0.5">Dodaj pierwszą poniżej</p>
+        <p class="text-sm font-body">Brak rezerwacji</p>
+        <p class="text-xs mt-0.5 font-body">Dodaj pierwszą poniżej</p>
       </div>
     <% end %>
 
     <% if failed_bookings.any? %>
       <details class="mt-2">
-        <summary class="cursor-pointer px-3 py-2 bg-error-dim/10 text-error-dim rounded-xl hover:bg-error-dim/15 transition-colors text-xs flex items-center gap-1.5">
+        <summary class="cursor-pointer px-3 py-2 bg-danger-light text-danger rounded-xl hover:bg-rose-100 transition-colors text-xs flex items-center gap-1.5 font-body">
           <%= icon(:x_circle, css: "w-3.5 h-3.5") %>
           <span class="font-medium"><%= failed_bookings.count %> nieudane</span>
         </summary>
         <div class="mt-2 space-y-2">
           <% failed_bookings.each do |booking| %>
             <% failed_event = booking.latest_failed_event %>
-            <div class="rounded-xl p-3 bg-error-dim/5">
+            <div class="rounded-xl p-3 bg-danger-light/50">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                  <div class="w-7 h-7 rounded-full bg-error-dim/20 flex items-center justify-center">
-                    <%= icon(:x_circle, css: "w-3.5 h-3.5 text-error-dim") %>
+                  <div class="w-7 h-7 rounded-full bg-danger-light flex items-center justify-center">
+                    <%= icon(:x_circle, css: "w-3.5 h-3.5 text-danger") %>
                   </div>
                   <div>
-                    <h4 class="font-medium text-on-background text-xs"><%= booking.class_name %></h4>
-                    <p class="text-[10px] text-on-surface-variant/50">
+                    <h4 class="font-medium text-txt text-xs"><%= booking.class_name %></h4>
+                    <p class="text-[10px] text-txt-muted font-body">
                       <%= booking.trainer_name&.upcase %>
                       <% if failed_event&.debug_info.present? %>
                         &middot; <%= failed_event.debug_info %>
@@ -89,7 +89,7 @@
                   data-action="dashboard#cancelBooking"
                   data-booking-id="<%= booking.id %>"
                   data-class-name="<%= booking.class_name %>"
-                  class="text-[10px] text-on-surface-variant/40 hover:text-error-dim transition-colors"
+                  class="text-[10px] text-txt-muted hover:text-danger transition-colors font-body"
                 >
                   Usuń
                 </button>

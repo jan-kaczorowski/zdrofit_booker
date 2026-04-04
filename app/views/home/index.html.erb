@@ -1,63 +1,57 @@
-<%# Ambient background glow %>
-<div class="fixed inset-0 w-full h-full bg-surface overflow-hidden">
-  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary-container/[0.08] blur-[120px]"></div>
-  <div class="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-primary-dim/[0.06] blur-[100px]"></div>
-</div>
-
 <%# Content container %>
-<div class="min-h-screen flex flex-col items-center justify-center relative z-10 px-4">
+<div class="min-h-screen flex flex-col items-center justify-center relative px-4">
 
   <%# Logo & Title %>
   <div class="text-center mb-10">
     <div class="flex justify-center mb-4">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-dim/20">
-        <%= icon(:dumbbell, css: "w-8 h-8 text-primary") %>
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-light">
+        <%= icon(:dumbbell, css: "w-8 h-8 text-accent") %>
       </div>
     </div>
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-on-background tracking-tight">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-txt tracking-tight">
       Zdrofit Booker
     </h1>
-    <p class="text-on-surface-variant mt-3 text-lg">Twój osobisty asystent rezerwacji</p>
+    <p class="text-txt-secondary mt-3 text-lg font-body">Twój osobisty asystent rezerwacji</p>
   </div>
 
   <%# Flash error %>
   <% if flash[:error] %>
     <div class="w-full max-w-md mb-6">
-      <div class="bg-error-dim/20 text-error-dim px-4 py-3 rounded-2xl text-sm text-center" role="alert">
+      <div class="bg-danger-light text-danger px-4 py-3 rounded-2xl text-sm text-center" role="alert">
         <%= flash[:error] %>
       </div>
     </div>
   <% end %>
 
-  <%# Login Card — Glassmorphism %>
+  <%# Login Card %>
   <div class="w-full max-w-md">
-    <div class="relative rounded-4xl p-8 sm:p-10 backdrop-blur-xl bg-surface-container-highest/70 shadow-ambient">
+    <div class="relative rounded-4xl p-8 sm:p-10 bg-surface-card shadow-card">
 
-      <h2 class="text-xl font-bold text-primary mb-8 text-center">Zaloguj się</h2>
+      <h2 class="text-xl font-bold text-accent mb-8 text-center">Zaloguj się</h2>
 
       <%= form_tag login_path, method: :post, class: "space-y-6" do %>
         <div>
-          <label for="email" class="block text-sm font-medium text-on-surface-variant mb-2">Email</label>
+          <label for="email" class="block text-sm font-medium text-txt-secondary mb-2 font-body">Email</label>
           <%= email_field_tag :email, nil,
-            class: "w-full px-4 py-3 rounded-xl bg-surface-container text-on-background placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-dim/20 transition-all",
+            class: "w-full px-4 py-3 rounded-xl bg-surface-nested text-txt placeholder-txt-muted focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-body",
             placeholder: "twoj@email.com" %>
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-on-surface-variant mb-2">Hasło</label>
+          <label for="password" class="block text-sm font-medium text-txt-secondary mb-2 font-body">Hasło</label>
           <%= password_field_tag :password, nil,
-            class: "w-full px-4 py-3 rounded-xl bg-surface-container text-on-background placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-dim/20 transition-all",
+            class: "w-full px-4 py-3 rounded-xl bg-surface-nested text-txt placeholder-txt-muted focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-body",
             placeholder: "••••••••" %>
         </div>
 
         <div>
           <%= submit_tag "Zaloguj",
-            class: "w-full py-3.5 rounded-full bg-primary-dim text-white font-semibold text-sm tracking-wide hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-glow cursor-pointer" %>
+            class: "w-full py-3.5 rounded-full bg-accent text-white font-semibold text-sm tracking-wide hover:bg-accent-dark hover:scale-[1.02] active:scale-[0.98] transition-all shadow-glow cursor-pointer" %>
         </div>
       <% end %>
 
-      <p class="text-on-surface-variant/60 text-xs mt-8 text-center leading-relaxed">
-        Nigdy więcej nie przegap popularnych zajęć. Zaplanuj automatyczne rezerwacje, które uruchomią się dokładnie w momencie otwarcia zapisów.
+      <p class="text-txt-muted text-xs mt-8 text-center leading-relaxed font-body">
+        Automatycznie rezerwuj zajęcia fitness w Twoich ulubionych klubach.
       </p>
     </div>
   </div>

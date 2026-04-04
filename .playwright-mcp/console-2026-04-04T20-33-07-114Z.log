@@ -1,0 +1,3 @@
+[     186ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[     187ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[     187ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0

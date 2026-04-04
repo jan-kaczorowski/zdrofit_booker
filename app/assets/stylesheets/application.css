@@ -20,9 +20,8 @@
 }
 
 .dropdown-menu {
-  @apply absolute left-0 right-0 z-10 mt-2 rounded-xl shadow-ambient;
-  background-color: #192540;
-  backdrop-filter: blur(20px);
+  @apply absolute left-0 right-0 z-10 mt-2 rounded-xl shadow-card;
+  background-color: #ffffff;
   display: none;
   max-height: 300px;
   overflow-y: auto;
@@ -34,11 +33,11 @@
 
 .dropdown-item {
   @apply block w-full px-4 py-2.5 text-sm cursor-pointer;
-  color: #a3aac4;
+  color: #64748B;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #152035;
-  color: #dee5ff;
+  background-color: #F1F5F9;
+  color: #1E293B;
 }

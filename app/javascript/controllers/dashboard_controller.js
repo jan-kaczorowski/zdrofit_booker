@@ -136,11 +136,11 @@ export default class extends Controller {
     if (this.hasDayTabsTarget) {
       this.dayTabsTarget.querySelectorAll('button').forEach(btn => {
         if (btn.dataset.date === selectedDate) {
-          btn.classList.remove('bg-surface-container', 'text-on-surface-variant', 'hover:bg-surface-container-high')
-          btn.classList.add('bg-primary-dim', 'text-white', 'shadow-glow')
+          btn.classList.remove('bg-surface-nested', 'text-txt-secondary', 'hover:bg-surface-hover')
+          btn.classList.add('bg-accent', 'text-white', 'shadow-glow')
         } else {
-          btn.classList.remove('bg-primary-dim', 'text-white', 'shadow-glow')
-          btn.classList.add('bg-surface-container', 'text-on-surface-variant', 'hover:bg-surface-container-high')
+          btn.classList.remove('bg-accent', 'text-white', 'shadow-glow')
+          btn.classList.add('bg-surface-nested', 'text-txt-secondary', 'hover:bg-surface-hover')
         }
       })
     }
@@ -191,16 +191,16 @@ export default class extends Controller {
           button.innerHTML = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>`
-          button.classList.remove('bg-primary-dim/20', 'text-primary', 'hover:bg-primary-dim/30', 'hover:scale-105')
-          button.classList.add('bg-green-500/20', 'text-green-400')
+          button.classList.remove('bg-accent-light', 'text-accent', 'hover:bg-accent-medium', 'hover:scale-[1.02]')
+          button.classList.add('bg-success-light', 'text-success')
 
           // Add "Auto-booking scheduled" text
           const parentDiv = button.closest('.class-row')
           if (parentDiv) {
-            const infoDiv = parentDiv.querySelector('.text-sm.text-on-surface-variant')
-            if (infoDiv && !parentDiv.querySelector('.text-green-400')) {
+            const infoDiv = parentDiv.querySelector('.text-sm.text-txt-secondary')
+            if (infoDiv && !parentDiv.querySelector('.text-success')) {
               const scheduledText = document.createElement('div')
-              scheduledText.className = 'text-xs text-green-400 mt-0.5'
+              scheduledText.className = 'text-xs text-success mt-0.5'
               scheduledText.textContent = '✓ Rezerwacja zaplanowana'
               infoDiv.parentNode.appendChild(scheduledText)
             }

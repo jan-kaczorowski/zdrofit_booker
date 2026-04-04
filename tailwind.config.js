@@ -10,33 +10,39 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
+        body: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         surface: {
-          DEFAULT: '#060e20',
-          dim: '#0a1228',
-          container: '#0f1930',
-          'container-low': '#0c1528',
-          'container-high': '#152035',
-          'container-highest': '#192540',
+          DEFAULT: '#F8FAFC',
+          card: '#FFFFFF',
+          nested: '#F1F5F9',
+          hover: '#E2E8F0',
         },
-        'on-surface': {
-          DEFAULT: '#ffffff',
-          variant: '#a3aac4',
+        accent: {
+          DEFAULT: '#4F46E5',
+          light: '#EEF2FF',
+          medium: '#C7D2FE',
+          dark: '#4338CA',
         },
-        'on-background': '#dee5ff',
-        primary: {
-          DEFAULT: '#a7a5ff',
-          dim: '#645efb',
-          container: '#9795ff',
+        txt: {
+          DEFAULT: '#1E293B',
+          secondary: '#64748B',
+          muted: '#94A3B8',
         },
-        'outline-variant': '#40485d',
-        'error-dim': '#d73357',
+        success: {
+          DEFAULT: '#059669',
+          light: '#ECFDF5',
+        },
+        danger: {
+          DEFAULT: '#E11D48',
+          light: '#FFF1F2',
+        },
       },
       boxShadow: {
-        'ambient': '0px 20px 40px rgba(100, 94, 251, 0.08)',
-        'ambient-lg': '0px 20px 40px rgba(100, 94, 251, 0.15)',
-        'glow': '0 0 30px rgba(100, 94, 251, 0.12)',
+        'card': '0 4px 24px rgba(0, 0, 0, 0.06)',
+        'card-hover': '0 8px 32px rgba(0, 0, 0, 0.08)',
+        'glow': '0 0 24px rgba(79, 70, 229, 0.15)',
       },
       borderRadius: {
         '4xl': '2rem',

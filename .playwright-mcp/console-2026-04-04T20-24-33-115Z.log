@@ -41,3 +41,10 @@
 [   12852ms] [LOG] [Dashboard] selectClub action triggered: 77 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:76
 [   12852ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
 [   14052ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  449606ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  451112ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  451112ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  451116ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  451116ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  451116ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  451116ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
