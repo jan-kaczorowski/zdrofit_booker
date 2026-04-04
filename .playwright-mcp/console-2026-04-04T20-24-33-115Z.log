@@ -1,0 +1,43 @@
+[     386ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[     386ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[     392ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[     392ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[     392ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[     392ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[    5823ms] [LOG] [Dashboard] showCityDropdown action triggered @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:32
+[    5823ms] [LOG] [City Dropdown] Filtering for: "", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[    5823ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[    5823ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu hidden @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[    5823ms] [LOG] [City Dropdown] Visible: 34, Hidden: 0 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[    5823ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[    8035ms] [LOG] [Dashboard] filterCityDropdown action triggered: w @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:38
+[    8035ms] [LOG] [City Dropdown] Filtering for: "w", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[    8035ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[    8035ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[    8035ms] [LOG] [City Dropdown] Visible: 14, Hidden: 20 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[    8035ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[    8276ms] [LOG] [Dashboard] filterCityDropdown action triggered: wa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:38
+[    8276ms] [LOG] [City Dropdown] Filtering for: "wa", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[    8276ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[    8276ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[    8276ms] [LOG] [City Dropdown] Visible: 3, Hidden: 31 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[    8277ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[    8454ms] [LOG] [Dashboard] filterCityDropdown action triggered: war @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:38
+[    8455ms] [LOG] [City Dropdown] Filtering for: "war", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[    8455ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[    8455ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[    8455ms] [LOG] [City Dropdown] Visible: 1, Hidden: 33 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[    8455ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[    9154ms] [LOG] [Dashboard] selectCity action triggered: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:60
+[    9154ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[    9608ms] [LOG] [Dashboard] showClubDropdown action triggered @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:44
+[    9608ms] [LOG] [Club Dropdown] Visible: 77, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[   11442ms] [LOG] [Dashboard] filterClubDropdown action triggered: p @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:50
+[   11442ms] [LOG] [Club Dropdown] Visible: 26, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[   11559ms] [LOG] [Dashboard] filterClubDropdown action triggered: pz @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:50
+[   11559ms] [LOG] [Club Dropdown] Visible: 1, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[   11601ms] [LOG] [Dashboard] filterClubDropdown action triggered: pzo @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:50
+[   11602ms] [LOG] [Club Dropdown] Visible: 1, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[   12852ms] [LOG] [Dashboard] selectClub action triggered: 77 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:76
+[   12852ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[   14052ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93

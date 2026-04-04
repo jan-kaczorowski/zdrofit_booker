@@ -1,161 +1,139 @@
-<%# Background container %>
-<div class="fixed inset-0 w-full h-full bg-gradient-to-t from-sky-500 to-indigo-500"></div>
-
-<%# Fixed Header Image with blur %>
-<div class="fixed top-0 left-0 w-full h-48 sm:h-64 z-10 overflow-hidden">
-  <%# Blurred background image %>
-  <div class="absolute inset-0 backdrop-blur-sm">
-    <img
-      src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-      alt="People exercising in gym"
-      class="w-full h-full object-cover opacity-90"
-    />
-  </div>
-  <%# Gradient overlay %>
-  <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50"></div>
+<%# Ambient background glows %>
+<div class="fixed inset-0 w-full h-full bg-surface overflow-hidden -z-10">
+  <div class="absolute top-[-200px] left-1/4 w-[500px] h-[500px] rounded-full bg-primary-container/[0.06] blur-[120px]"></div>
+  <div class="absolute bottom-[-100px] right-1/4 w-[400px] h-[400px] rounded-full bg-primary-dim/[0.04] blur-[100px]"></div>
 </div>
 
 <%# Content container %>
-<div class="min-h-screen flex flex-col relative z-20" data-controller="dashboard">
-  <%# Spacer to push content below fixed header %>
-  <div class="h-48 sm:h-64"></div>
+<div class="max-w-6xl mx-auto space-y-8" data-controller="dashboard">
 
-  <%# Title Section with backdrop blur %>
-  <div class="text-center py-6 relative">
-    <div class="absolute inset-0"></div>
-    <h1 class="text-4xl sm:text-5xl font-bold text-white relative z-10 drop-shadow-lg">
-      Zdrofit Auto-Booker
-    </h1>
-    <p class="text-white/80 mt-2 text-lg">Automatyczne rezerwacje zajęć</p>
-  </div>
-
-  <%# Upcoming Auto-Bookings Card %>
-  <div class="py-4 flex flex-col justify-center sm:py-6">
-    <div class="relative py-3 sm:max-w-4xl mx-auto w-full px-2">
-      <div class="relative px-4 py-6 bg-white shadow-lg sm:rounded-2xl sm:p-8 w-full">
-        <div class="w-full mx-auto">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-indigo-600">Zaplanowane rezerwacje</h2>
-            <button class="text-gray-400 hover:text-gray-600" title="Automatyczne rezerwacje uruchamiają się 2 dni przed zajęciami o tej samej godzinie">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-              </svg>
-            </button>
-          </div>
-
-          <turbo-frame id="ongoing-bookings-container" src="/ongoing_bookings">
-            <div class="flex justify-center py-8">
-              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-            </div>
-          </turbo-frame>
-        </div>
+  <%# Hero Section %>
+  <div class="pt-4">
+    <div class="flex items-start justify-between flex-wrap gap-4">
+      <div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-on-background tracking-tight">
+          Witaj!
+        </h1>
+        <p class="text-on-surface-variant mt-1 text-base max-w-lg">
+          Twoja podróż do szczytowej formy trwa.
+          <% if @active_booking_count > 0 %>
+            Mamy dla Ciebie przygotowane <span class="text-primary font-semibold"><%= @active_booking_count %></span> automatyczne rezerwacje na ten tydzień.
+          <% else %>
+            Zaplanuj automatyczne rezerwacje poniżej.
+          <% end %>
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#new-booking" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-dim text-white font-semibold text-sm hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-glow">
+          <%= icon(:plus, css: "w-4 h-4") %>
+          Dodaj Auto-Book
+        </a>
       </div>
     </div>
   </div>
 
-  <%# Schedule New Auto-Booking Card %>
-  <div class="py-4 flex flex-col justify-center sm:py-6">
-    <div class="relative py-3 sm:max-w-4xl mx-auto w-full px-2">
-      <div class="relative px-4 py-6 bg-white shadow-lg sm:rounded-2xl sm:p-8 w-full">
-        <div class="w-full mx-auto">
-          <h2 class="text-xl font-bold text-indigo-600 mb-6">Zaplanuj nową rezerwację</h2>
+  <%# Two Column Layout %>
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
-          <% if flash[:error] %>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4" role="alert">
-              <span class="block sm:inline"><%= flash[:error] %></span>
-            </div>
-          <% end %>
+    <%# Left Column — Auto-Bookings (2/5) %>
+    <div class="lg:col-span-2 space-y-6">
+      <div class="rounded-4xl p-6 backdrop-blur-xl bg-surface-container-highest/70 shadow-ambient">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-base font-bold text-primary flex items-center gap-2">
+            <%= icon(:calendar, css: "w-5 h-5 text-primary-dim") %>
+            Twoje Rezerwacje
+          </h2>
+          <button class="text-on-surface-variant/40 hover:text-on-surface-variant transition-colors" title="Automatyczne rezerwacje uruchamiają się 2 dni przed zajęciami">
+            <%= icon(:info, css: "w-4 h-4") %>
+          </button>
+        </div>
 
-          <%# City and Club dropdowns %>
-          <div class="space-y-4 mb-6">
-            <%# Cities dropdown %>
-            <div class="w-full">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Miasto</label>
-              <div class="dropdown relative">
-                <input type="text" id="city-dropdown" placeholder="Szukaj miasta..." class="w-full px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" data-dashboard-target="cityButton" data-action="focus->dashboard#showCityDropdown input->dashboard#filterCityDropdown">
-                <div class="dropdown-menu hidden" role="menu" data-dashboard-target="cityMenu">
-                  <ul class="py-1">
-                    <% @clubs.map { |club| club.dig('City', 'Name') }.uniq.sort.map(&:strip).each do |city| %>
-                      <li>
-                        <div class="dropdown-item" data-value="<%= city %>" data-action="click->dashboard#selectCity"><%= city %></div>
-                      </li>
-                    <% end %>
-                  </ul>
-                </div>
-              </div>
-            </div>
+        <turbo-frame id="ongoing-bookings-container" src="/ongoing_bookings">
+          <div class="flex justify-center py-8">
+            <div class="animate-spin rounded-full h-7 w-7 border-b-2 border-primary-dim"></div>
+          </div>
+        </turbo-frame>
+      </div>
+    </div>
 
-            <%# Clubs dropdown %>
-            <div class="w-full <%= 'hidden' unless @user.last_city_id.present? %>" id="clubs-container" data-dashboard-target="clubsContainer">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Klub</label>
-              <div class="dropdown relative">
-                <input type="text" id="club-dropdown" placeholder="Szukaj klubu..." class="w-full px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" data-dashboard-target="clubButton" data-action="focus->dashboard#showClubDropdown input->dashboard#filterClubDropdown">
-                <div class="dropdown-menu hidden" role="menu" data-dashboard-target="clubMenu">
-                  <ul class="py-1">
-                    <% @clubs.each do |club| %>
-                      <li>
-                        <div class="dropdown-item" data-value="<%= club['Id'] %>" data-city="<%= club.dig('City', 'Name').strip %>" data-action="click->dashboard#selectClub"><%= club['Name'].strip %> - <%= club['Address'].strip %></div>
-                      </li>
-                    <% end %>
-                  </ul>
-                </div>
+    <%# Right Column — Class Browser (3/5) %>
+    <div class="lg:col-span-3" id="new-booking">
+      <div class="rounded-4xl p-6 backdrop-blur-xl bg-surface-container-highest/70 shadow-ambient">
+        <h2 class="text-base font-bold text-primary flex items-center gap-2 mb-5">
+          <%= icon(:search, css: "w-5 h-5 text-primary-dim") %>
+          Przeglądarka Zajęć
+        </h2>
+
+        <% if flash[:error] %>
+          <div class="bg-error-dim/20 text-error-dim px-4 py-3 rounded-2xl mb-4 text-sm" role="alert">
+            <%= flash[:error] %>
+          </div>
+        <% end %>
+
+        <%# City and Club dropdowns — side by side %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+          <div class="w-full">
+            <label class="block text-xs font-medium text-on-surface-variant/60 mb-1.5 uppercase tracking-wider">Miasto</label>
+            <div class="dropdown relative">
+              <input type="text" id="city-dropdown" placeholder="Wybierz miasto..."
+                class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container text-sm text-on-background placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-dim/20 transition-all"
+                data-dashboard-target="cityButton"
+                data-action="focus->dashboard#showCityDropdown input->dashboard#filterCityDropdown">
+              <div class="dropdown-menu hidden" role="menu" data-dashboard-target="cityMenu">
+                <ul class="py-1">
+                  <% @clubs.map { |club| club.dig('City', 'Name') }.uniq.sort.map(&:strip).each do |city| %>
+                    <li>
+                      <div class="dropdown-item" data-value="<%= city %>" data-action="click->dashboard#selectCity"><%= city %></div>
+                    </li>
+                  <% end %>
+                </ul>
               </div>
             </div>
           </div>
 
-          <% if @clubs.blank? || !@clubs.respond_to?(:each) %>
-            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg" role="alert">
-              <strong class="font-bold">Uwaga:</strong>
-              <span class="block sm:inline">Nie udało się załadować klubów. Spróbuj odświeżyć stronę.</span>
+          <div class="w-full <%= 'hidden' unless @user.last_city_id.present? %>" id="clubs-container" data-dashboard-target="clubsContainer">
+            <label class="block text-xs font-medium text-on-surface-variant/60 mb-1.5 uppercase tracking-wider">Klub</label>
+            <div class="dropdown relative">
+              <input type="text" id="club-dropdown" placeholder="Wybierz klub..."
+                class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container text-sm text-on-background placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-dim/20 transition-all"
+                data-dashboard-target="clubButton"
+                data-action="focus->dashboard#showClubDropdown input->dashboard#filterClubDropdown">
+              <div class="dropdown-menu hidden" role="menu" data-dashboard-target="clubMenu">
+                <ul class="py-1">
+                  <% @clubs.each do |club| %>
+                    <li>
+                      <div class="dropdown-item" data-value="<%= club['Id'] %>" data-city="<%= club.dig('City', 'Name').strip %>" data-action="click->dashboard#selectClub"><%= club['Name'].strip %> - <%= club['Address'].strip %></div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
             </div>
-          <% end %>
-
-          <%# Weekly classes container %>
-          <turbo-frame id="weekly-classes-container" class="hidden" src="/weekly_classes">
-            <div class="flex justify-center py-8">
-              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-            </div>
-          </turbo-frame>
-
-          <% unless params[:club_id].present? || @user.last_club_id.present? %>
-            <p class="text-gray-500 text-sm text-center py-4">
-              Wybierz miasto i klub, aby zobaczyć dostępne zajęcia.
-            </p>
-          <% end %>
+          </div>
         </div>
+
+        <% if @clubs.blank? || !@clubs.respond_to?(:each) %>
+          <div class="bg-yellow-500/10 text-yellow-400 px-4 py-3 rounded-2xl text-sm" role="alert">
+            <strong class="font-bold">Uwaga:</strong>
+            Nie udało się załadować klubów. Spróbuj odświeżyć stronę.
+          </div>
+        <% end %>
+
+        <%# Weekly classes container %>
+        <turbo-frame id="weekly-classes-container" class="hidden" src="/weekly_classes">
+          <div class="flex justify-center py-8">
+            <div class="animate-spin rounded-full h-7 w-7 border-b-2 border-primary-dim"></div>
+          </div>
+        </turbo-frame>
+
+        <% unless params[:club_id].present? || @user.last_club_id.present? %>
+          <div class="text-center py-10 text-on-surface-variant/40">
+            <%= icon(:dumbbell, css: "w-10 h-10 mx-auto mb-3") %>
+            <p class="text-sm">Wybierz miasto i klub, aby zobaczyć dostępne zajęcia.</p>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
 
-  <%# Footer spacing %>
   <div class="h-8"></div>
 </div>
-
-<style>
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    width: 100%;
-    max-height: 300px;
-    overflow-y: auto;
-    margin-top: 0.25rem;
-    background-color: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
-
-  .dropdown-item {
-    display: block;
-    padding: 0.625rem 1rem;
-    color: #374151;
-    cursor: pointer;
-    transition: background-color 0.15s;
-  }
-
-  .dropdown-item:hover {
-    background-color: #f3f4f6;
-  }
-</style>

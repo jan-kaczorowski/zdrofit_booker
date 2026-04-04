@@ -1,0 +1,32 @@
+[     692ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[     692ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[     696ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[     696ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[     697ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[     697ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  126125ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  128058ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  128058ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  128064ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  128064ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  128064ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  128064ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  129158ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  129158ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  129161ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  129161ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  129161ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  129161ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  129927ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  129927ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  129930ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  129930ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  129930ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  129930ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  143820ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  182762ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  182762ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  182767ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  182767ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  182767ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  182767ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89

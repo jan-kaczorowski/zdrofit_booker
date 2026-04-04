@@ -1,0 +1,12 @@
+[     117ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[     118ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[     118ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[    2409ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[    2409ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[    2409ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[   12533ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[   12533ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[   12533ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[   12533ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[   15638ms] [WARNING] The resource http://localhost:3001/assets/tailwind-2c49ffd7.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3001/dashboard:0
+[   15639ms] [WARNING] The resource http://localhost:3001/assets/application-a6d29a28.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3001/dashboard:0

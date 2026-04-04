@@ -1,0 +1,69 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ActiveRecord::DatabaseConnectionError in DashboardController#show_or_setup_guide" [level=1] [ref=e3]
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: "There is an issue connecting with your hostname: 127.0.0.1."
+      - generic [ref=e7]: Please check your database configuration and ensure there is a valid connection to your database.
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - text: Extracted source (around line
+        - strong [ref=e10]: "#347"
+        - text: "):"
+      - table [ref=e12]:
+        - rowgroup [ref=e13]:
+          - 'row "345 346 347 348 349 350 define_method(foreign_class) do unless value = instance_variable_get(\"@#{foreign_class}\") value = klass .find_by_id (send(foreign_key)) instance_variable_set(\"@#{foreign_class}\", value) end value" [ref=e14]':
+            - cell "345 346 347 348 349 350" [ref=e15]:
+              - generic [ref=e16]: 345 346 347 348 349 350
+            - 'cell "define_method(foreign_class) do unless value = instance_variable_get(\"@#{foreign_class}\") value = klass .find_by_id (send(foreign_key)) instance_variable_set(\"@#{foreign_class}\", value) end value" [ref=e17]':
+              - generic [ref=e18]:
+                - generic [ref=e19]: define_method(foreign_class) do
+                - generic [ref=e20]: "unless value = instance_variable_get(\"@#{foreign_class}\")"
+                - generic [ref=e21]:
+                  - text: value = klass
+                  - generic [ref=e22]: .find_by_id
+                  - text: (send(foreign_key))
+                - generic [ref=e23]: "instance_variable_set(\"@#{foreign_class}\", value)"
+                - generic [ref=e24]: end
+                - generic [ref=e25]: value
+    - paragraph [ref=e26]:
+      - code [ref=e27]: "Rails.root: /Users/janek/maxio/chargify-CAT-104"
+    - generic [ref=e28]:
+      - link "Application Trace" [ref=e29] [cursor=pointer]:
+        - /url: "#"
+      - text: "|"
+      - link "Framework Trace" [ref=e30] [cursor=pointer]:
+        - /url: "#"
+      - text: "|"
+      - link "Full Trace" [ref=e31] [cursor=pointer]:
+        - /url: "#"
+      - code [ref=e33]:
+        - 'link "app/services/bigbull/model.rb:347:in `block in belongs_to''" [ref=e34] [cursor=pointer]':
+          - /url: "#"
+        - 'link "app/services/bigbull/auditlog.rb:73:in `log_otel''" [ref=e35] [cursor=pointer]':
+          - /url: "#"
+        - 'link "app/services/bigbull/auditlog.rb:56:in `log_to_otel''" [ref=e36] [cursor=pointer]':
+          - /url: "#"
+        - 'link "config/initializers/one_line_logger.rb:116:in `block in <main>''" [ref=e37] [cursor=pointer]':
+          - /url: "#"
+        - 'link "lib/middleware/options_method_cors.rb:20:in `call''" [ref=e38] [cursor=pointer]':
+          - /url: "#"
+        - 'link "lib/middleware/ban_hammer.rb:14:in `call''" [ref=e39] [cursor=pointer]':
+          - /url: "#"
+        - 'link "lib/middleware/per_domain_cookie.rb:31:in `call''" [ref=e40] [cursor=pointer]':
+          - /url: "#"
+        - 'link "lib/middleware/catch_parse_errors.rb:7:in `call''" [ref=e41] [cursor=pointer]':
+          - /url: "#"
+    - heading "Exception Causes" [level=2] [ref=e42]
+    - 'link "Mysql2::Error::ConnectionError: Can''t connect to MySQL server on ''127.0.0.1:3306'' (61)" [ref=e44] [cursor=pointer]':
+      - /url: "#"
+    - heading "Request" [level=2] [ref=e45]
+    - paragraph [ref=e46]: "Parameters:"
+    - generic [ref=e47]: None
+    - link "Toggle session dump" [ref=e50] [cursor=pointer]:
+      - /url: "#"
+    - link "Toggle env dump" [ref=e53] [cursor=pointer]:
+      - /url: "#"
+    - heading "Response" [level=2] [ref=e54]
+    - paragraph [ref=e55]: "Headers:"
+    - generic [ref=e56]: None

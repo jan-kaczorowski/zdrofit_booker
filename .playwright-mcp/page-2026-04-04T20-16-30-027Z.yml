@@ -1,0 +1,19 @@
+- main [ref=e2]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - img [ref=e10]
+      - heading "Zdrofit Booker" [level=1] [ref=e12]
+      - paragraph [ref=e13]: Twój osobisty asystent rezerwacji
+    - generic [ref=e15]:
+      - heading "Zaloguj się" [level=2] [ref=e16]
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: Email
+          - textbox "Email" [ref=e20]:
+            - /placeholder: twoj@email.com
+        - generic [ref=e21]:
+          - generic [ref=e22]: Hasło
+          - textbox "Hasło" [ref=e23]:
+            - /placeholder: ••••••••
+        - button "Zaloguj" [ref=e25] [cursor=pointer]
+      - paragraph [ref=e26]: Nigdy więcej nie przegap popularnych zajęć. Zaplanuj automatyczne rezerwacje, które uruchomią się dokładnie w momencie otwarcia zapisów.

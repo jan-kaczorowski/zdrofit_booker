@@ -136,11 +136,11 @@ export default class extends Controller {
     if (this.hasDayTabsTarget) {
       this.dayTabsTarget.querySelectorAll('button').forEach(btn => {
         if (btn.dataset.date === selectedDate) {
-          btn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200')
-          btn.classList.add('bg-indigo-600', 'text-white')
+          btn.classList.remove('bg-surface-container', 'text-on-surface-variant', 'hover:bg-surface-container-high')
+          btn.classList.add('bg-primary-dim', 'text-white', 'shadow-glow')
         } else {
-          btn.classList.remove('bg-indigo-600', 'text-white')
-          btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200')
+          btn.classList.remove('bg-primary-dim', 'text-white', 'shadow-glow')
+          btn.classList.add('bg-surface-container', 'text-on-surface-variant', 'hover:bg-surface-container-high')
         }
       })
     }
@@ -191,16 +191,16 @@ export default class extends Controller {
           button.innerHTML = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>`
-          button.classList.remove('bg-indigo-100', 'text-indigo-600', 'hover:bg-indigo-200')
-          button.classList.add('bg-green-100', 'text-green-600')
+          button.classList.remove('bg-primary-dim/20', 'text-primary', 'hover:bg-primary-dim/30', 'hover:scale-105')
+          button.classList.add('bg-green-500/20', 'text-green-400')
 
           // Add "Auto-booking scheduled" text
           const parentDiv = button.closest('.class-row')
           if (parentDiv) {
-            const infoDiv = parentDiv.querySelector('.text-sm.text-gray-500')
-            if (infoDiv && !parentDiv.querySelector('.text-green-600')) {
+            const infoDiv = parentDiv.querySelector('.text-sm.text-on-surface-variant')
+            if (infoDiv && !parentDiv.querySelector('.text-green-400')) {
               const scheduledText = document.createElement('div')
-              scheduledText.className = 'text-xs text-green-600 mt-0.5'
+              scheduledText.className = 'text-xs text-green-400 mt-0.5'
               scheduledText.textContent = '✓ Rezerwacja zaplanowana'
               infoDiv.parentNode.appendChild(scheduledText)
             }

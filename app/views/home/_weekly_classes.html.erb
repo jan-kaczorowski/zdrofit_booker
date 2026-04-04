@@ -1,65 +1,71 @@
 <turbo-frame id="weekly-classes-container">
   <div class="space-y-4">
     <% if next_5_days.present? && next_5_days.any? %>
-      <%# Day tabs %>
+      <%# Day tabs — pill style %>
       <div class="flex flex-wrap gap-2" data-dashboard-target="dayTabs">
         <% next_5_days.each do |day| %>
           <% class_count = (classes_by_date[day[:date]] || []).count %>
           <button
             data-action="dashboard#selectDay"
             data-date="<%= day[:date] %>"
-            class="px-4 py-2 rounded-lg font-medium text-sm transition-colors
-              <%= day[:date] == selected_date ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' %>"
+            class="px-3.5 py-1.5 rounded-full font-medium text-xs transition-all
+              <%= day[:date] == selected_date ? 'bg-primary-dim text-white shadow-glow' : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high' %>"
           >
             <%= day[:label] %>
             <% if class_count > 0 %>
-              <span class="ml-1 text-xs <%= day[:date] == selected_date ? 'text-indigo-200' : 'text-gray-500' %>">(<%= class_count %>)</span>
+              <span class="ml-0.5 <%= day[:date] == selected_date ? 'text-white/60' : 'text-on-surface-variant/40' %>">(<%= class_count %>)</span>
             <% end %>
           </button>
         <% end %>
       </div>
 
-      <%# Search input %>
+      <%# Search %>
       <div class="relative">
+        <%= icon(:search, css: "absolute left-3 top-2.5 w-4 h-4 text-on-surface-variant/40") %>
         <input
           type="text"
           id="class-search"
           placeholder="Szukaj zajęć..."
-          class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          class="w-full px-3.5 py-2.5 pl-9 rounded-xl bg-surface-container text-sm text-on-background placeholder-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary-dim/20 transition-all"
         >
-        <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
       </div>
 
       <%# Classes for selected day %>
       <% selected_day = next_5_days.find { |d| d[:date] == selected_date } %>
       <% if selected_day %>
-        <h3 class="text-lg font-semibold text-gray-800 border-b-2 border-indigo-500 pb-2">
-          <%= selected_day[:formatted].upcase %>
-        </h3>
-
         <% day_classes = (classes_by_date[selected_date] || []).sort_by { |c| DateTime.parse(c["StartTime"]) } %>
         <% if day_classes.any? %>
           <div class="space-y-2" data-dashboard-target="classesContainer">
             <% day_classes.each do |class_data| %>
               <% start_time = DateTime.parse(class_data["StartTime"].to_s) %>
               <% is_booked = class_data['BookingId'].present? %>
-              <div class="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors class-row"
+              <div class="flex items-center gap-4 p-3.5 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-all class-row"
                    data-class-name="<%= class_data["Name"].downcase %>">
-                <div class="flex items-center gap-4">
-                  <div class="text-lg font-semibold text-indigo-600 w-16">
-                    <%= start_time.strftime("%H:%M") %>
-                  </div>
-                  <div>
-                    <div class="font-medium text-gray-900"><%= class_data["Name"] %></div>
-                    <div class="text-sm text-gray-500">Trener: <%= class_data["Trainer"]&.upcase %></div>
-                    <% if is_booked %>
-                      <div class="text-xs text-green-600 mt-0.5">✓ Rezerwacja zaplanowana</div>
-                    <% end %>
-                  </div>
+
+                <%# Time block %>
+                <div class="flex-shrink-0 text-center w-14">
+                  <div class="text-lg font-bold text-primary-dim leading-tight"><%= start_time.strftime("%H:%M") %></div>
+                  <div class="text-[10px] font-medium text-on-surface-variant/40 uppercase tracking-wider">60 min</div>
                 </div>
 
+                <%# Divider line %>
+                <div class="w-px h-10 bg-outline-variant/20 flex-shrink-0"></div>
+
+                <%# Class info %>
+                <div class="flex-1 min-w-0">
+                  <div class="font-semibold text-on-background text-sm"><%= class_data["Name"] %></div>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <%= icon(:user, css: "w-3 h-3 text-on-surface-variant/40") %>
+                    <span class="text-xs text-on-surface-variant/60"><%= class_data["Trainer"]&.upcase %></span>
+                  </div>
+                  <% if is_booked %>
+                    <div class="flex items-center gap-1 text-[10px] text-green-400 mt-0.5 font-medium">
+                      <%= icon(:check, css: "w-2.5 h-2.5") %> Zaplanowano
+                    </div>
+                  <% end %>
+                </div>
+
+                <%# Action button %>
                 <button
                   data-action="dashboard#bookClass"
                   data-booking-id="<%= class_data['BookingId'] %>"
@@ -69,34 +75,30 @@
                   data-class-name="<%= class_data["Name"] %>"
                   data-trainer-name="<%= class_data["TrainerName"] || class_data["Trainer"] %>"
                   data-timetable-id="<%= class_data["TimeTableId"] %>"
-                  class="flex items-center justify-center w-10 h-10 rounded-full transition-colors
-                    <%= is_booked ? 'bg-green-100 text-green-600' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200' %>"
+                  class="flex-shrink-0 transition-all
+                    <%= is_booked ? 'w-8 h-8 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center' : 'px-3 py-1.5 rounded-full bg-primary-dim/15 text-primary text-xs font-medium hover:bg-primary-dim/25 hover:scale-[1.02]' %>"
                   <%= 'disabled' if is_booked %>
                 >
                   <% if is_booked %>
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
+                    <%= icon(:check, css: "w-4 h-4") %>
                   <% else %>
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
+                    Zapisz się
                   <% end %>
                 </button>
               </div>
             <% end %>
           </div>
         <% else %>
-          <div class="text-center py-8 text-gray-500">
-            <div class="text-4xl mb-2">📅</div>
-            <p>Brak zajęć w tym dniu.</p>
+          <div class="text-center py-6 text-on-surface-variant/40">
+            <%= icon(:calendar_empty, css: "w-8 h-8 mx-auto mb-2") %>
+            <p class="text-sm">Brak zajęć w tym dniu.</p>
           </div>
         <% end %>
       <% end %>
     <% else %>
-      <div class="text-center py-8 text-gray-500">
-        <div class="text-4xl mb-2">🏋️</div>
-        <p>Wybierz klub, aby zobaczyć dostępne zajęcia.</p>
+      <div class="text-center py-6 text-on-surface-variant/40">
+        <%= icon(:dumbbell, css: "w-8 h-8 mx-auto mb-2") %>
+        <p class="text-sm">Wybierz klub, aby zobaczyć zajęcia.</p>
       </div>
     <% end %>
   </div>

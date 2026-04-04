@@ -24,9 +24,12 @@ class HomeController < ApplicationController
   def dashboard
     @client = @user.zdrofit_api_client
     @clubs = @client.list_available_clubs
+    all_bookings = @user.bookings.includes(:booking_events).to_a
+    @active_booking_count = all_bookings.count(&:active?)
   rescue => e
     flash[:error] = "Failed to fetch clubs: #{e.message}"
-    @clubs = [] # Ensure @clubs is always an array
+    @clubs = []
+    @active_booking_count = 0
   end
 
   def ongoing_bookings
@@ -47,7 +50,7 @@ class HomeController < ApplicationController
   rescue => e
     Rails.logger.error("Error fetching ongoing bookings: #{e.message}")
     if turbo_frame_request?
-      render html: "<turbo-frame id=\"ongoing-bookings-container\"><div class='p-4 bg-red-100 text-red-700 rounded'>Error: #{e.message}</div></turbo-frame>".html_safe
+      render html: "<turbo-frame id=\"ongoing-bookings-container\"><div class='p-4 bg-error-dim/20 text-error-dim rounded-2xl text-sm'>Error: #{e.message}</div></turbo-frame>".html_safe
     else
       render json: { error: e.message }, status: :unprocessable_entity
     end
@@ -135,7 +138,7 @@ class HomeController < ApplicationController
   rescue => e
     Rails.logger.error("Error fetching weekly classes: #{e.message}")
     if turbo_frame_request?
-      render html: "<turbo-frame id=\"weekly-classes-container\"><div class='p-4 bg-red-100 text-red-700 rounded'>Error: #{e.message}</div></turbo-frame>".html_safe
+      render html: "<turbo-frame id=\"weekly-classes-container\"><div class='p-4 bg-error-dim/20 text-error-dim rounded-2xl text-sm'>Error: #{e.message}</div></turbo-frame>".html_safe
     else
       render json: { error: e.message }, status: :unprocessable_entity
     end

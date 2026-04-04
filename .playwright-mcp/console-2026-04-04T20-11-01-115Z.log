@@ -1,0 +1,89 @@
+[     115ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[     115ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[     115ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[   79960ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[   79960ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[   79960ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[   79960ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[   83193ms] [WARNING] The resource http://localhost:3001/assets/application-a6d29a28.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3001/dashboard:0
+[   83193ms] [WARNING] The resource http://localhost:3001/assets/tailwind-2c49ffd7.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3001/dashboard:0
+[   96165ms] [LOG] [Dashboard] showCityDropdown action triggered @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:32
+[   96165ms] [LOG] [City Dropdown] Filtering for: "", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[   96165ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[   96167ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu hidden @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[   96167ms] [LOG] [City Dropdown] Visible: 34, Hidden: 0 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[   96167ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[   96586ms] [LOG] [Dashboard] filterCityDropdown action triggered: w @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:38
+[   96587ms] [LOG] [City Dropdown] Filtering for: "w", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[   96587ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[   96587ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[   96587ms] [LOG] [City Dropdown] Visible: 14, Hidden: 20 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[   96587ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[   96824ms] [LOG] [Dashboard] filterCityDropdown action triggered: wa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:38
+[   96824ms] [LOG] [City Dropdown] Filtering for: "wa", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[   96824ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[   96824ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[   96824ms] [LOG] [City Dropdown] Visible: 3, Hidden: 31 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[   96824ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[   96959ms] [LOG] [Dashboard] filterCityDropdown action triggered: war @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:38
+[   96960ms] [LOG] [City Dropdown] Filtering for: "war", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[   96960ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[   96960ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[   96960ms] [LOG] [City Dropdown] Visible: 1, Hidden: 33 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[   96960ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[   97271ms] [LOG] [Dashboard] filterCityDropdown action triggered: wars @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:38
+[   97272ms] [LOG] [City Dropdown] Filtering for: "wars", total 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:314
+[   97272ms] [LOG] [City Dropdown] Menu element: JSHandle@node @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:315
+[   97272ms] [LOG] [City Dropdown] Menu classes before: dropdown-menu @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:316
+[   97272ms] [LOG] [City Dropdown] Visible: 1, Hidden: 33 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:332
+[   97272ms] [LOG] [City Dropdown] Menu should now be visible. Computed display: block @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:337
+[   97776ms] [LOG] [Dashboard] selectCity action triggered: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:60
+[   97776ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[   98420ms] [LOG] [Dashboard] showClubDropdown action triggered @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:44
+[   98420ms] [LOG] [Club Dropdown] Visible: 77, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[  107427ms] [LOG] [Dashboard] filterClubDropdown action triggered: p @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:50
+[  107428ms] [LOG] [Club Dropdown] Visible: 26, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[  107550ms] [LOG] [Dashboard] filterClubDropdown action triggered: pz @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:50
+[  107550ms] [LOG] [Club Dropdown] Visible: 1, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[  107626ms] [LOG] [Dashboard] filterClubDropdown action triggered: pzo @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:50
+[  107626ms] [LOG] [Club Dropdown] Visible: 1, Selected city: Warszawa @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:368
+[  111468ms] [LOG] [Dashboard] selectClub action triggered: 77 @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:76
+[  111468ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  114899ms] [WARNING] The resource http://localhost:3001/assets/application-a6d29a28.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3001/dashboard:0
+[  114899ms] [WARNING] The resource http://localhost:3001/assets/tailwind-2c49ffd7.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3001/dashboard:0
+[  191933ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  193035ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  193035ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  193040ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  193040ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  193040ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  193040ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  194558ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  194558ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  194563ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  194563ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  194563ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  194563ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  195548ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  195548ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  195551ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  195551ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  195551ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  195551ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  296530ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  296665ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  296665ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  296668ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  296669ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  296669ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  296669ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  298328ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  299000ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[  299000ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[  299004ms] [LOG] Dashboard controller connected @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:6
+[  299004ms] [LOG] [Dashboard] Setting up dropdowns @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:87
+[  299004ms] [LOG] [Dashboard] City menu has 34 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:88
+[  299004ms] [LOG] [Dashboard] Club menu has 151 items @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:89
+[  301084ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  302008ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93
+[  302781ms] [LOG] [Dashboard] closeAllDropdowns called @ http://localhost:3001/assets/controllers/dashboard_controller-58ad6446.js:93

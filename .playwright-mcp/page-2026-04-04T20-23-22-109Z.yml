@@ -1,0 +1,28 @@
+- main [ref=e2]:
+  - generic [ref=e6]:
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - heading "Witaj!" [level=1] [ref=e10]
+        - paragraph [ref=e11]: Twoja podróż do szczytowej formy trwa. Zaplanuj automatyczne rezerwacje poniżej.
+      - link "Dodaj Auto-Book" [ref=e13] [cursor=pointer]:
+        - /url: "#new-booking"
+        - img [ref=e14]
+        - text: Dodaj Auto-Book
+    - generic [ref=e16]:
+      - generic [ref=e19]:
+        - heading "Twoje Rezerwacje" [level=2] [ref=e20]:
+          - img [ref=e21]
+          - text: Twoje Rezerwacje
+        - button "Automatyczne rezerwacje uruchamiają się 2 dni przed zajęciami" [ref=e29] [cursor=pointer]:
+          - img [ref=e30]
+      - generic [ref=e38]:
+        - heading "Przeglądarka Zajęć" [level=2] [ref=e39]:
+          - img [ref=e40]
+          - text: Przeglądarka Zajęć
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]: Miasto
+            - textbox "Wybierz miasto..." [ref=e48]
+          - generic [ref=e49]:
+            - generic [ref=e50]: Klub
+            - textbox "Wybierz klub..." [ref=e52]

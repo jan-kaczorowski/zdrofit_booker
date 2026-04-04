@@ -1,0 +1,24 @@
+- main [ref=e2]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - img [ref=e9]
+      - generic [ref=e11]:
+        - heading "Zdrofit Auto-Booker" [level=1] [ref=e12]
+        - paragraph [ref=e13]: Automatyczne rezerwacje zajęć
+    - generic [ref=e15]:
+      - heading "Zaplanowane rezerwacje" [level=2] [ref=e16]:
+        - img [ref=e17]
+        - text: Zaplanowane rezerwacje
+      - button "Automatyczne rezerwacje uruchamiają się 2 dni przed zajęciami o tej samej godzinie" [ref=e25] [cursor=pointer]:
+        - img [ref=e26]
+    - generic [ref=e33]:
+      - heading "Zaplanuj nową rezerwację" [level=2] [ref=e34]:
+        - img [ref=e35]
+        - text: Zaplanuj nową rezerwację
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]: Miasto
+          - textbox "Szukaj miasta..." [ref=e41]
+        - generic [ref=e42]:
+          - generic [ref=e43]: Klub
+          - textbox "Szukaj klubu..." [ref=e45]
