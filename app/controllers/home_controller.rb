@@ -26,10 +26,18 @@ class HomeController < ApplicationController
     @clubs = @client.list_available_clubs
     all_bookings = @user.bookings.includes(:booking_events).to_a
     @active_booking_count = all_bookings.count(&:active?)
+
+    recent_club_ids = @user.bookings.order(created_at: :desc).distinct.pluck(:club_id).first(4)
+    @recent_clubs = recent_club_ids.filter_map do |cid|
+      club = @clubs.find { |c| c['Id'] == cid }
+      next unless club
+      { id: cid, name: club['Name'].strip, city: club.dig('City', 'Name').strip }
+    end
   rescue => e
     flash[:error] = "Failed to fetch clubs: #{e.message}"
     @clubs = []
     @active_booking_count = 0
+    @recent_clubs = []
   end
 
   def ongoing_bookings

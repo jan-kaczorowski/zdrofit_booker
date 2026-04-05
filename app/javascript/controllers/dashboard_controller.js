@@ -184,6 +184,35 @@ export default class extends Controller {
     })
   }
 
+  selectRecentClub(event) {
+    const { clubId, clubName, city } = event.currentTarget.dataset
+
+    // Set city
+    this.cityButtonTarget.value = city
+    this.handleCitySelection(city)
+
+    // Mark city as selected in dropdown
+    this.cityMenuTarget.querySelectorAll('.dropdown-item').forEach(item => {
+      item.removeAttribute('data-selected')
+      if (item.dataset.value === city) {
+        item.setAttribute('data-selected', 'true')
+      }
+    })
+
+    // Find and select the matching club in the dropdown
+    const clubItem = this.clubMenuTarget.querySelector(`.dropdown-item[data-value="${clubId}"]`)
+    if (clubItem) {
+      this.clubButtonTarget.value = clubItem.textContent.trim()
+      this.clubMenuTarget.querySelectorAll('.dropdown-item').forEach(i => i.removeAttribute('data-selected'))
+      clubItem.setAttribute('data-selected', 'true')
+    } else {
+      this.clubButtonTarget.value = clubName
+    }
+
+    this.clubsContainerTarget.classList.remove('hidden')
+    this.handleClubSelection(clubId, city)
+  }
+
   handleClubSelection(clubId, cityName) {
     this.currentClubId = clubId
     this.loadClasses(clubId)
@@ -191,14 +220,22 @@ export default class extends Controller {
 
   loadClasses(clubId, selectedDate = null) {
     const weeklyClassesFrame = document.getElementById('weekly-classes-container')
+    const loadingSpinner = document.getElementById('classes-loading')
 
     if (weeklyClassesFrame) {
       let url = `/weekly_classes?club_id=${clubId}`
       if (selectedDate) {
         url += `&date=${selectedDate}`
       }
-      weeklyClassesFrame.setAttribute('src', url)
+
+      // Show inline spinner while loading
+      weeklyClassesFrame.innerHTML = `
+        <div class="flex justify-center py-8">
+          <div class="animate-spin rounded-full h-6 w-6 border-2 border-accent/20 border-t-accent"></div>
+        </div>`
       weeklyClassesFrame.classList.remove('hidden')
+
+      weeklyClassesFrame.setAttribute('src', url)
     }
   }
 

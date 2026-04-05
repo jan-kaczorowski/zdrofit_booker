@@ -37,3 +37,59 @@
 [  430749ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
 [  430749ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
 [  430750ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[ 1563609ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1563609ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1563610ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[ 1567867ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1567867ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1567867ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[ 1568267ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1568267ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1568267ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[ 1568791ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1568792ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1568792ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/:0
+[ 1571496ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1571496ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1571496ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1581516ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1581516ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1581517ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1582556ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1582556ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1582557ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1591828ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1591829ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1591829ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1592405ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1592405ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1592406ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1592793ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1592793ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1592793ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1593147ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1593148ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1593148ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1612230ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1612231ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1612231ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/?:0
+[ 1729969ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1729969ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1741181ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1741181ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1850500ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1850500ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1851770ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1851770ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1865175ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1865175ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1902869ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1902869ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1905026ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1905026ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1906067ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1906068ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1943990ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1943990ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4
+[ 1945631ms] [LOG] whatever @ http://localhost:3001/assets/controllers/index-97edc5ed.js:4
+[ 1945631ms] [LOG] whatever 2 @ http://localhost:3001/assets/application-fbdce494.js:4

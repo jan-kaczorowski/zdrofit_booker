@@ -5,9 +5,14 @@
   <div class="pt-4">
     <div class="flex items-start justify-between flex-wrap gap-4">
       <div>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-txt tracking-tight">
-          Witaj!
-        </h1>
+        <div class="flex items-center gap-3 mb-1">
+          <div class="inline-flex items-center justify-center w-10 h-10 bg-accent text-white rounded-xl shadow-lg">
+            <%= icon(:dumbbell, css: "w-5 h-5 text-white") %>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-accent tracking-tight">
+            Zdrofit Booker
+          </h1>
+        </div>
         <p class="text-txt-secondary mt-1 text-base font-body max-w-lg">
           Twoja podróż do szczytowej formy trwa.
           <% if @active_booking_count > 0 %>
@@ -56,6 +61,22 @@
         <% if flash[:error] %>
           <div class="bg-danger-light text-danger px-4 py-3 rounded-2xl mb-4 text-sm font-body" role="alert">
             <%= flash[:error] %>
+          </div>
+        <% end %>
+
+        <% if @recent_clubs.present? %>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="text-xs text-txt-muted self-center font-body">Ostatnie:</span>
+            <% @recent_clubs.each do |club| %>
+              <button type="button"
+                class="bg-surface-nested text-txt-secondary text-xs rounded-full px-3 py-1.5 hover:bg-surface-hover hover:text-txt transition-colors font-body"
+                data-action="dashboard#selectRecentClub"
+                data-club-id="<%= club[:id] %>"
+                data-club-name="<%= club[:name] %>"
+                data-city="<%= club[:city] %>">
+                <%= club[:name] %>
+              </button>
+            <% end %>
           </div>
         <% end %>
 
@@ -110,7 +131,7 @@
         <%# Weekly classes container %>
         <turbo-frame id="weekly-classes-container" class="hidden" src="/weekly_classes">
           <div class="flex justify-center py-8">
-            <div class="animate-spin rounded-full h-7 w-7 border-b-2 border-accent"></div>
+            <div class="animate-spin rounded-full h-6 w-6 border-2 border-accent/20 border-t-accent"></div>
           </div>
         </turbo-frame>
 

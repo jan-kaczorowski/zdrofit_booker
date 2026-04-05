@@ -39,3 +39,4 @@
 
 # Ignore VCR cassettes
 /spec/vcr_cassettes/.DS_Store
+/.playwright-mcp
