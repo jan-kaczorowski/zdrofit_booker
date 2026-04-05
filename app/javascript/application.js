@@ -2,4 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-console.log('whatever 2')
+// Register service worker for PWA
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js")
+}
