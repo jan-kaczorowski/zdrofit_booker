@@ -28,7 +28,7 @@
   </head>
 
   <body class="bg-surface min-h-screen font-sans text-txt antialiased">
-    <main class="container mx-auto px-5 py-8">
+    <main class="<%= content_for?(:fullscreen) ? '' : 'container mx-auto px-5 py-8' %>">
       <%= yield %>
     </main>
   </body>

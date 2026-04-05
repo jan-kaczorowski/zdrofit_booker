@@ -1,58 +1,76 @@
-<%# Content container %>
-<div class="min-h-screen flex flex-col items-center justify-center relative px-4">
+<% content_for :fullscreen, "true" %>
 
-  <%# Logo & Title %>
-  <div class="text-center mb-10">
-    <div class="flex justify-center mb-4">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-light">
-        <%= icon(:dumbbell, css: "w-8 h-8 text-accent") %>
-      </div>
-    </div>
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-txt tracking-tight">
-      Zdrofit Booker
-    </h1>
-    <p class="text-txt-secondary mt-3 text-lg font-body">Twój osobisty asystent rezerwacji</p>
+<style>
+  .bg-mesh {
+    background-image: linear-gradient(135deg, #3525cd 0%, #4f46e5 50%, #0058be 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .bg-mesh::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+    opacity: 0.2;
+    mix-blend-mode: overlay;
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+</style>
+
+<main class="flex-grow flex items-center justify-center bg-mesh relative px-4 min-h-screen">
+  <%# Decorative glow blobs %>
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-indigo-700 opacity-20 blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-[0%] right-[0%] w-[50%] h-[50%] bg-blue-600 opacity-30 blur-[120px] rounded-full"></div>
   </div>
 
-  <%# Flash error %>
-  <% if flash[:error] %>
-    <div class="w-full max-w-md mb-6">
-      <div class="bg-danger-light text-danger px-4 py-3 rounded-2xl text-sm text-center" role="alert">
+  <%# Glassmorphic Login Card %>
+  <div class="glass-card w-full max-w-[480px] p-8 md:p-12 rounded-3xl shadow-2xl z-10">
+    <%# Header %>
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center justify-center w-14 h-14 bg-accent text-white rounded-2xl mb-4 shadow-lg">
+        <%= icon(:dumbbell, css: "w-7 h-7 text-white") %>
+      </div>
+      <h1 class="font-sans text-3xl font-extrabold text-accent tracking-tight mb-2">Zdrofit Booker</h1>
+      <p class="text-slate-500 font-medium font-body">Twój osobisty asystent rezerwacji</p>
+    </div>
+
+    <%# Flash error %>
+    <% if flash[:error] %>
+      <div class="bg-danger-light text-danger px-4 py-3 rounded-2xl text-sm text-center mb-6" role="alert">
         <%= flash[:error] %>
       </div>
-    </div>
-  <% end %>
+    <% end %>
 
-  <%# Login Card %>
-  <div class="w-full max-w-md">
-    <div class="relative rounded-4xl p-8 sm:p-10 bg-surface-card shadow-card">
+    <%# Login Form %>
+    <%= form_tag login_path, method: :post, class: "space-y-6" do %>
+      <div>
+        <label for="email" class="block text-sm font-semibold text-txt mb-2 px-1 font-body">E-mail</label>
+        <%= email_field_tag :email, nil,
+          class: "block w-full px-4 py-4 bg-white/50 border-0 focus:ring-2 focus:ring-accent/40 rounded-2xl text-txt placeholder:text-slate-400 transition-all shadow-sm font-body",
+          placeholder: "Wprowadź swój e-mail" %>
+      </div>
 
-      <h2 class="text-xl font-bold text-accent mb-8 text-center">Zaloguj się</h2>
+      <div>
+        <label for="password" class="block text-sm font-semibold text-txt mb-2 px-1 font-body">Hasło</label>
+        <%= password_field_tag :password, nil,
+          class: "block w-full px-4 py-4 bg-white/50 border-0 focus:ring-2 focus:ring-accent/40 rounded-2xl text-txt placeholder:text-slate-400 transition-all shadow-sm font-body",
+          placeholder: "Wprowadź hasło" %>
+      </div>
 
-      <%= form_tag login_path, method: :post, class: "space-y-6" do %>
-        <div>
-          <label for="email" class="block text-sm font-medium text-txt-secondary mb-2 font-body">Email</label>
-          <%= email_field_tag :email, nil,
-            class: "w-full px-4 py-3 rounded-xl bg-surface-nested text-txt placeholder-txt-muted focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-body",
-            placeholder: "twoj@email.com" %>
-        </div>
+      <div>
+        <%= submit_tag "Zaloguj",
+          class: "w-full bg-accent text-white font-bold py-4 rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer",
+          style: "box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);" %>
+      </div>
+    <% end %>
 
-        <div>
-          <label for="password" class="block text-sm font-medium text-txt-secondary mb-2 font-body">Hasło</label>
-          <%= password_field_tag :password, nil,
-            class: "w-full px-4 py-3 rounded-xl bg-surface-nested text-txt placeholder-txt-muted focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-body",
-            placeholder: "••••••••" %>
-        </div>
-
-        <div>
-          <%= submit_tag "Zaloguj",
-            class: "w-full py-3.5 rounded-full bg-accent text-white font-semibold text-sm tracking-wide hover:bg-accent-dark hover:scale-[1.02] active:scale-[0.98] transition-all shadow-glow cursor-pointer" %>
-        </div>
-      <% end %>
-
-      <p class="text-txt-muted text-xs mt-8 text-center leading-relaxed font-body">
-        Automatycznie rezerwuj zajęcia fitness w Twoich ulubionych klubach.
-      </p>
-    </div>
+    <p class="text-slate-400 text-xs mt-8 text-center leading-relaxed font-body">
+      Automatycznie rezerwuj zajęcia fitness w Twoich ulubionych klubach.
+    </p>
   </div>
-</div>
+</main>
