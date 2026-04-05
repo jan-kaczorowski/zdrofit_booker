@@ -45,9 +45,9 @@ env:
     SOLID_QUEUE_IN_PUMA: true
     PORT: 80
     HOST: zdrofitbooker.redsphinx.pl
-    ZDROFIT_PROXY_URL: socks5://260118fT5B9-resi_region-PL_Mazovia_Warsaw:5e3AUXENFLUU5Zf@eu.proxy-jet.io:2020
-    ZDROFIT_FALLBACK_PROXY_URL: socks5://260118fT5B9-resi-any:5e3AUXENFLUU5Zf@proxy-jet.io:2020
-    ZDROFIT_BACKUP_PROXY_URL: socks5://260118fT5B9-resi_region-DE_Hesse_Frankfurtammain:5e3AUXENFLUU5Zf@eu.proxy-jet.io:2020
+    ZDROFIT_PROXY_URL: socks5://260118fT5B9-resi_region-DE_Hesse_Frankfurtammain:5e3AUXENFLUU5Zf@eu.proxy-jet.io:2020
+    ZDROFIT_FALLBACK_PROXY_URL: socks5://260118fT5B9-resi_region-DE_Hesse_Frankfurtammain:5e3AUXENFLUU5Zf@eu.proxy-jet.io:2020
+    ZDROFIT_BACKUP_PROXY_URL: socks5://260118fT5B9-resi_region-DE_Bavaria_Munich-ip-825126174:5e3AUXENFLUU5Zf@eu.proxy-jet.io:2020
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
