@@ -42,7 +42,7 @@ class HomeController < ApplicationController
 
   def ongoing_bookings
     all_bookings = @user.bookings.includes(:booking_events).to_a
-    @pending_bookings = all_bookings.select(&:active?).sort_by { |b| b.current_event.occurrence }
+    @pending_bookings = all_bookings.select(&:active?).sort_by { |b| b.next_pending_event&.occurrence || b.current_event.occurrence }
     @failed_bookings = all_bookings.reject(&:active?).select(&:failed?)
 
     # If it's a Turbo Frame request, render the partial

@@ -3,24 +3,30 @@
     <% if pending_bookings.any? %>
       <% pending_bookings.each do |booking| %>
         <% event = booking.current_event %>
+        <% is_confirmed = event.status == "booked" %>
+        <% prev = booking.previous_completed_event %>
         <div class="rounded-2xl p-4 bg-surface-nested transition-all hover:bg-surface-hover group">
           <div class="flex items-start gap-3">
-            <%# Circular icon %>
-            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-light flex items-center justify-center mt-0.5">
-              <%= icon(:dumbbell, css: "w-5 h-5 text-accent") %>
+            <%# Circular icon — green if confirmed, accent if pending %>
+            <div class="flex-shrink-0 w-10 h-10 rounded-full <%= is_confirmed ? 'bg-success-light' : 'bg-accent-light' %> flex items-center justify-center mt-0.5">
+              <% if is_confirmed %>
+                <%= icon(:check, css: "w-5 h-5 text-success") %>
+              <% else %>
+                <%= icon(:dumbbell, css: "w-5 h-5 text-accent") %>
+              <% end %>
             </div>
 
             <div class="flex-1 min-w-0">
               <%# Title + status badge %>
               <div class="flex items-center gap-2 flex-wrap">
                 <h3 class="font-semibold text-txt text-sm truncate"><%= booking.class_name %></h3>
-                <% if booking.last_booked_event %>
+                <% if is_confirmed %>
                   <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success-light text-success text-[10px] font-bold uppercase tracking-wider">
-                    <%= icon(:check, css: "w-2.5 h-2.5") %> Sukces
+                    <%= icon(:check, css: "w-2.5 h-2.5") %> Zarezerwowano
                   </span>
                 <% else %>
                   <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-light text-accent text-[10px] font-bold uppercase tracking-wider">
-                    Auto
+                    <%= icon(:timer, css: "w-2.5 h-2.5") %> Oczekuje
                   </span>
                 <% end %>
               </div>
@@ -30,11 +36,22 @@
                 <%= booking.trainer_name&.upcase || "TBA" %> &middot; <%= I18n.l(event.occurrence_in_warsaw, format: "%A, %d %b") %>, <%= I18n.l(event.occurrence_in_warsaw, format: "%H:%M") %>
               </p>
 
+              <%# Previous attempt result (only for pending events) %>
+              <% if !is_confirmed && prev %>
+                <p class="text-[10px] mt-0.5 font-body <%= prev.status == 'booked' ? 'text-success' : 'text-danger' %>">
+                  <% if prev.status == "booked" %>
+                    <%= icon(:check, css: "w-2.5 h-2.5 inline") %> Ostatnia: zarezerwowano <%= I18n.l(prev.occurrence_in_warsaw, format: "%d %b") %>
+                  <% else %>
+                    <%= icon(:x_circle, css: "w-2.5 h-2.5 inline") %> Ostatnia: nie udało się <%= I18n.l(prev.occurrence_in_warsaw, format: "%d %b") %>
+                  <% end %>
+                </p>
+              <% end %>
+
               <%# Countdown badge %>
               <div class="flex items-center gap-2 mt-2">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-accent-light text-accent text-xs font-medium font-body">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg <%= is_confirmed ? 'bg-success-light text-success' : 'bg-accent-light text-accent' %> text-xs font-medium font-body">
                   <%= icon(:timer, css: "w-3.5 h-3.5") %>
-                  <%= event.time_until_booking %>
+                  <%= is_confirmed ? "Potwierdzone" : event.time_until_booking %>
                 </span>
               </div>
             </div>
